@@ -1,0 +1,9 @@
+header{
+	background-color: black;
+	img {
+		height: 33vh;
+		object-fit: cover;
+		width: 100%;
+		overflow: hidden;
+	}
+}
