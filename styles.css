@@ -117,7 +117,6 @@ figcaption {
 
 .window-header {
     background: #dddd;
-    padding: 5px;
     cursor: grab;
     display: flex;
     justify-content: space-between;
@@ -141,7 +140,7 @@ figcaption {
 #fake-window-wrapper-image {
     display: none;
     position: absolute;
-    top: 50%;
+    top: 30%;
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 10;

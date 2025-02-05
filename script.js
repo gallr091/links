@@ -1,39 +1,34 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // Get elements for text file window
-    const textItemContainer = document.querySelector("#open-text");
-    const textFakeWindowWrapper = document.getElementById("fake-window-wrapper");
-    const textCloseButton = document.getElementById("close-window");
+    const openTxtButton = document.getElementById("open-txt");
+    const openPicButton = document.getElementById("open-pic");
+    const fakeWindowWrapper = document.getElementById("fake-window-wrapper");
+    const fakeWindowWrapperImage = document.getElementById("fake-window-wrapper-image");
+    const closeButton = document.getElementById("close-window");
+    const closeButtonImage = document.getElementById("close-window-image");
 
-    // Get elements for image file window
-    const imageItemContainer = document.querySelector("#open-pic");
-    const imageFakeWindowWrapper = document.getElementById("fake-window-wrapper-image");
-    const imageCloseButton = document.getElementById("close-window-image");
+    if (openTxtButton && openPicButton && fakeWindowWrapper && fakeWindowWrapperImage && closeButton && closeButtonImage) {
+       
+		// console.log("working");
 
-    // Open the text window on click
-    if (textItemContainer) {
-        textItemContainer.addEventListener("click", function () {
-            textFakeWindowWrapper.style.display = "flex";
+		openTxtButton.addEventListener("click", function () {
+            // fakeWindowWrapper.style.display = "";
+			fakeWindowWrapper.style.display = "flex";
+            fakeWindowWrapperImage.style.display = "none";
         });
-    }
 
-    // Open the image window on click
-    if (imageItemContainer) {
-        imageItemContainer.addEventListener("click", function () {
-            imageFakeWindowWrapper.style.display = "flex";
+        openPicButton.addEventListener("click", function () {
+            fakeWindowWrapperImage.style.display = "flex";
+            fakeWindowWrapper.style.display = "none";
         });
-    }
 
-    // Close the text window
-    if (textCloseButton) {
-        textCloseButton.addEventListener("click", function () {
-            textFakeWindowWrapper.style.display = "none";
+        closeButton.addEventListener("click", function () {
+            fakeWindowWrapper.style.display = "none";
         });
-    }
 
-    // Close the image window
-    if (imageCloseButton) {
-        imageCloseButton.addEventListener("click", function () {
-            imageFakeWindowWrapper.style.display = "none";
+        closeButtonImage.addEventListener("click", function () {
+            fakeWindowWrapperImage.style.display = "none";
         });
+    } else {
+        console.error("something's missing");
     }
 });
