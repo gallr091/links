@@ -28,6 +28,7 @@ body {
     max-width: 100%;
     position: relative; 
 	z-index: -10;
+	opacity: 50%;
 }
 
 .item-container {
@@ -42,42 +43,43 @@ body {
     padding: 5px;
     border-radius: 3px;
 	z-index: 1;
+	cursor: pointer;
 }
 
 #txtfile {
     width: 50px;
     height: 50px;
-    background: var(--light-grey);
 }
 
 figcaption {
-    font-size: 1rem;
+    font-size: 0.9rem;
 }
 
 #fake-window-wrapper {
-    display: none; /* Hidden by default */
-    position: fixed;
-    top: 50%;
+    display: none; 
+    position: absolute;
+    top: 20%;
     left: 50%;
     transform: translate(-50%, -50%);
     width: 300px;
     background: white;
-    border: 1px solid black;
     box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
     z-index: 1000;
     flex-direction: column;
+	cursor: pointer;
 }
 
 #fake-window {
     display: flex;
     flex-direction: column;
     width: 100%;
-    position: absolute; /* Make sure it can move freely */
+    position: absolute; 
+	background: black;
+	color: white;
 }
 
 #fake-window-header {
     background: black;
-    color: white;
     padding: 5px;
     cursor: grab;
     display: flex;
@@ -87,6 +89,7 @@ figcaption {
 
 #close-window {
     cursor: pointer;
+	padding: 0.5rem;
 }
 
 #fake-window-content {
@@ -96,14 +99,14 @@ figcaption {
 
 
 .window-header {
-    background: #ddd;
+    background: #dddd;
     padding: 5px;
     cursor: grab;
     display: flex;
     justify-content: space-between;
     align-items: center;
     font-weight: bold;
-    width: 100%;
+	color: black;
 }
 
 .window-header button {

@@ -1,20 +1,17 @@
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     const itemContainer = document.querySelector(".item-container");
     const fakeWindowWrapper = document.getElementById("fake-window-wrapper");
     const closeButton = document.getElementById("close-window");
-    const fakeWindow = document.getElementById("fake-window");
 
-    // Show window on click
-    itemContainer.addEventListener("click", function() {
+    itemContainer.addEventListener("click", function () {
         fakeWindowWrapper.style.display = "flex";
     });
 
-    // Close window
-    closeButton.addEventListener("click", function() {
+    closeButton.addEventListener("click", function () {
         fakeWindowWrapper.style.display = "none";
     });
 
-    // Make the fake window draggable
+	// Make the fake window draggable
     dragElement(fakeWindow);
 });
 
@@ -50,4 +47,6 @@ function dragElement(elmnt) {
         document.onmouseup = null;
         document.onmousemove = null;
     }
-}
+} 
+
+
