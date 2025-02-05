@@ -43,12 +43,11 @@ body {
     align-items: center;
     gap: 2px;
     padding: 5px;
-    border-radius: 3px;
 	z-index: 1;
 	cursor: pointer;
 }
 
-#txtfile, #picfile {
+#txtfile, #picfile, #linkfile, #vidfile{
     width: 50px;
     height: 50px;
 }
@@ -64,10 +63,41 @@ body {
     align-items: center;
     gap: 2px;
     padding: 5px;
+	z-index: 1;
+	cursor: pointer;
+}
+
+.item-container:nth-child(3) {
+    position: absolute; 
+    top: 35%;
+    left: 50%;
+    transform: translateX(-50%); 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    padding: 5px;
+	z-index: 1;
+	cursor: pointer;
+}
+
+
+.item-container:nth-child(4) {
+    position: absolute; 
+    top: 50%;
+    left: 20%;
+    transform: translateX(-50%); 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    padding: 5px;
     border-radius: 3px;
 	z-index: 1;
 	cursor: pointer;
 }
+
+
 
 figcaption {
     font-size: 0.9rem;
@@ -81,7 +111,6 @@ figcaption {
     transform: translate(-50%, -50%);
     width: 300px;
     background: white;
-    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
     z-index: 1000;
     flex-direction: column;
 	cursor: pointer;
