@@ -140,18 +140,18 @@ figcaption {
 #fake-window-wrapper-image {
     display: none;
     position: absolute;
-    top: 30%;
-    left: 50%;
+    top: 40%;
+    left: 55%;
     transform: translate(-50%, -50%);
     z-index: 10;
-    width: 50%;
+    width: 100%;
     padding: 0; 
     border-radius: 10px;
 }
 
 #fake-window-image {
     background-color: black;
-    width: 100%;
+    width: 90%;
     height: auto; 
     max-height: 500px; 
     display: flex;
