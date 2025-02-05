@@ -1,52 +1,39 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const itemContainer = document.querySelector(".item-container");
-    const fakeWindowWrapper = document.getElementById("fake-window-wrapper");
-    const closeButton = document.getElementById("close-window");
+    // Get elements for text file window
+    const textItemContainer = document.querySelector("#open-text");
+    const textFakeWindowWrapper = document.getElementById("fake-window-wrapper");
+    const textCloseButton = document.getElementById("close-window");
 
-    itemContainer.addEventListener("click", function () {
-        fakeWindowWrapper.style.display = "flex";
-    });
+    // Get elements for image file window
+    const imageItemContainer = document.querySelector("#open-pic");
+    const imageFakeWindowWrapper = document.getElementById("fake-window-wrapper-image");
+    const imageCloseButton = document.getElementById("close-window-image");
 
-    closeButton.addEventListener("click", function () {
-        fakeWindowWrapper.style.display = "none";
-    });
+    // Open the text window on click
+    if (textItemContainer) {
+        textItemContainer.addEventListener("click", function () {
+            textFakeWindowWrapper.style.display = "flex";
+        });
+    }
 
-	// Make the fake window draggable
-    dragElement(fakeWindow);
+    // Open the image window on click
+    if (imageItemContainer) {
+        imageItemContainer.addEventListener("click", function () {
+            imageFakeWindowWrapper.style.display = "flex";
+        });
+    }
+
+    // Close the text window
+    if (textCloseButton) {
+        textCloseButton.addEventListener("click", function () {
+            textFakeWindowWrapper.style.display = "none";
+        });
+    }
+
+    // Close the image window
+    if (imageCloseButton) {
+        imageCloseButton.addEventListener("click", function () {
+            imageFakeWindowWrapper.style.display = "none";
+        });
+    }
 });
-
-function dragElement(elmnt) {
-    var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-    if (document.getElementById(elmnt.id + "-header")) {
-        document.getElementById(elmnt.id + "-header").onmousedown = dragMouseDown;
-    } else {
-        elmnt.onmousedown = dragMouseDown;
-    }
-
-    function dragMouseDown(e) {
-        e = e || window.event;
-        e.preventDefault();
-        pos3 = e.clientX;
-        pos4 = e.clientY;
-        document.onmouseup = closeDragElement;
-        document.onmousemove = elementDrag;
-    }
-
-    function elementDrag(e) {
-        e = e || window.event;
-        e.preventDefault();
-        pos1 = pos3 - e.clientX;
-        pos2 = pos4 - e.clientY;
-        pos3 = e.clientX;
-        pos4 = e.clientY;
-        elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-        elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-    }
-
-    function closeDragElement() {
-        document.onmouseup = null;
-        document.onmousemove = null;
-    }
-} 
-
-
