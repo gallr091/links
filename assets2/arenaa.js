@@ -43,13 +43,21 @@ let placeChannelInfo = (data) => {
 // Then our big function for specific-block-type rendering:
 let renderBlock = (block) => {
 	// To start, a shared `ul` where we’ll insert all our blocks
-	let channelBlocks = document.querySelector('.channel-blocks')
+	let channelBlocks = document.querySelector('.channel-blocks');
 
+	const getBlockImage = (blockClass) => {
+		const validClasses = ["Image", "Media", "Link", "Text", "Attachment"];
+		const formattedClass = blockClass.replace("block-", ""); 
+		return validClasses.includes(formattedClass) 
+			? `assets2/block-${formattedClass}.png` 
+			: "assets2/default.png"; // fallback image
+	};
+	
 	// Titles
 	let blockItem = 
 		`<div class="item"> 
-		<h3>${ block.title }</h3>
-		<p class="block-type">${ block.class }</p>
+		    <img src="${getBlockImage(block.class)}" alt="${block.class}" class="block-image">
+			<h3>${ block.title }</h3>
 		</div>`
 	channelBlocks.insertAdjacentHTML('beforeend', blockItem);
 
