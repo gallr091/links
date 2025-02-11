@@ -15,16 +15,28 @@ let channelSlug = 'digital-brutalism-buorqfz9bag' // The “slug” is just the 
 let placeChannelInfo = (data) => {
 	// Target some elements in your HTML:
 	// let channelTitle = document.querySelector('#channel-title')
-	// let channelDescription = document.querySelector('#channel-description')
+	let channelDescription = document.querySelector('#channel-description');
 	// let channelCount = document.querySelector('#channel-count')
 	// let channelLink = document.querySelector('#channel-link')
+	let popup = document.querySelector('#popup');
+    let closePopup = document.querySelector('#close-popup');
+    let aboutLink = document.querySelector('#about-link');
 
 	// Then set their content/attributes to our data:
 	// channelTitle.innerHTML = data.title
-	// channelDescription.innerHTML = window.markdownit().render(data.metadata.description) // Converts Markdown → HTML
+	channelDescription.innerHTML = window.markdownit().render(data.metadata.description); // Converts Markdown → HTML
 	// channelCount.innerHTML = data.length
 	// channelLink.href = `https://www.are.na/channel/${channelSlug}`
-}
+	
+	// pop-up for "about"
+    aboutLink.addEventListener('click', () => {
+        popup.classList.add('visible');
+    });
+
+    closePopup.addEventListener('click', () => {
+        popup.classList.remove('visible');
+    });
+};
 
 
 
@@ -40,7 +52,6 @@ let renderBlock = (block) => {
 		<p class="block-type">${ block.class }</p>
 		</div>`
 	channelBlocks.insertAdjacentHTML('beforeend', blockItem);
-
 
 }
 
@@ -79,6 +90,5 @@ fetch(`https://api.are.na/v2/channels/${channelSlug}?per=100`, { cache: 'no-stor
 		data.collaborators.forEach((collaborator) => renderUser(collaborator, channelUsers))
 		// renderUser(data.user, channelUsers)
 
-		// console.log(data);
 		console.log(data);
 	})

@@ -5,6 +5,7 @@
 	/* Colors */
 	--color-grey: #DDDDDD; 
 	--color-blue: #0033FF;
+	--color-purple: #800080;
 
 	/* Fonts */
 	--title-font: "Xanh Mono", serif;
@@ -33,6 +34,7 @@ main {
 	flex-direction: column;
 	position: sticky;
 	top: 0;
+	overflow-y: hidden;
 }
 
 h1 {
@@ -53,18 +55,61 @@ nav {
 	list-style-type: none;
 	line-height: 1.5;
 }
+#nav-links:hover{
+	cursor: pointer;
+}
 
 footer {
 	margin-left: 1.5rem;
 }
 
+
+/* about pop-up */
+#popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+#popup.visible {
+    visibility: visible;
+    opacity: 1;
+}
+
+.popup-content {
+    background: black;
+    padding: 2rem;
+    width: 50%;
+    max-width: 500px;
+    text-align: left;
+    position: relative;
+	color: var(--color-grey);
+}
+
+#close-popup {
+    position: absolute;
+    top: 0px;
+    right: 15px;
+    font-size: 3rem;
+    cursor: pointer;
+}
+
+#channel-description {
+	line-height: 1.5;
+}
+
+
 /* CONTENT */
 
-/* #channel-blocks {
-	list-style-type: none;
-	
-} */
- 
 #content{
 	overflow-y: auto;
 	width: 40vw;
@@ -83,6 +128,10 @@ footer {
 	height: auto; 
   }
 
+  .item:nth-child(50){
+	border-bottom: none;
+  }
+
   h3 {
 	margin: 2rem;
   }
@@ -90,5 +139,4 @@ footer {
   .block-type {
 	margin: 2rem;
   }
-	
 	
