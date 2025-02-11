@@ -39,6 +39,10 @@ h1 {
 	height: 70vh;
 }
 
+#arena-link:hover{
+	cursor: pointer;
+}
+
 nav {
 	font-size: 2rem;
 	font-weight: 200;
@@ -78,6 +82,6 @@ footer {
 	border-bottom: 2px solid black; 
 	height: 80px; 
   }
-  
+
 	
 	
