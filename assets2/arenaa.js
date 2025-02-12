@@ -45,23 +45,117 @@ let renderBlock = (block) => {
 	// To start, a shared `ul` where we’ll insert all our blocks
 	let channelBlocks = document.querySelector('.channel-blocks');
 
-	const getBlockImage = (blockClass) => {
-		const validClasses = ["Image", "Media", "Link", "Text", "Attachment"];
-		const formattedClass = blockClass.replace("block-", ""); 
-		return validClasses.includes(formattedClass) 
+	let getBlockImage = (blockClass) => {
+		let validClasses = ["Image", "Media", "Link", "Text", "Attachment"];
+		// let formattedClass = blockClass.replace("block-","validClasses");
+		let formattedClass = blockClass.replace("block-", ""); 
+		return validClasses.includes(formattedClass)
 			? `assets2/block-${formattedClass}.png` 
-			: "assets2/default.png"; // fallback image
+			: "assets2/default.png"; // fallback 
 	};
 	
 	// Titles
-	let blockItem = 
-		`<div class="item"> 
-		    <img src="${getBlockImage(block.class)}" alt="${block.class}" class="block-image">
-			<h3>${ block.title }</h3>
-		</div>`
-	channelBlocks.insertAdjacentHTML('beforeend', blockItem);
+	// let blockItem = 
+	// 	`<div class="item"> 
+	// 	    <img src="${getBlockImage(block.class)}" alt="${block.class}" class="block-image">
+	// 		<h3>${ block.title }</h3>
+	// 	</div>`
+	// channelBlocks.insertAdjacentHTML('beforeend', blockItem);
 
-}
+	
+	// Links
+	if (block.class === 'Link') {
+		let linkItem = `
+			<div class="item link-item">
+				<img src="${getBlockImage(block.class)}" alt="${block.class}" class="block-image">
+				<h3>${block.title}</h3> 
+			</div>
+		`;
+		channelBlocks.insertAdjacentHTML('beforeend', linkItem); 
+
+		const linkElement = document.querySelector('.link-item:last-child');
+		linkElement.addEventListener('click', () => {
+			openLinkPopup(block); 
+		});
+	}
+
+		// open links pop-up
+		let openLinkPopup = (block) => {
+			document.getElementById("popup-title").textContent = block.title;
+			document.getElementById("popup-description").innerHTML = block.description_html;
+
+			let pictureElement = document.getElementById("popup-image");
+			pictureElement.innerHTML = `
+				<picture>
+					<source media="(max-width: 428px)" srcset="${block.image.thumb.url}">
+					<source media="(max-width: 640px)" srcset="${block.image.large.url}">
+					<img src="${block.image.original.url}" alt="${block.title}">
+				</picture>
+			`;
+
+			let linkElement = document.getElementById("popup-link");
+			linkElement.href = block.source.url;
+			linkElement.textContent = "see the original ↗";
+
+			document.getElementById("link-popup").classList.add("visible");
+		};
+
+		document.getElementById("close-link-popup").addEventListener("click", () => {
+			document.getElementById("link-popup").classList.remove("visible");
+		});
+
+	// Images!
+	if (block.class === 'Image') {
+		let imageItem = `
+			<div class="item image-item">
+				<img src="${getBlockImage(block.class)}" alt="${block.class}" class="block-image">
+				<h3>${block.title}</h3> 
+			</div>
+		`;
+		channelBlocks.insertAdjacentHTML('beforeend', imageItem); 
+	
+		const imageElement = document.querySelector('.image-item:last-child');
+		imageElement.addEventListener('click', () => {
+			openImagePopup(block); 
+		});
+	}
+	
+		// open image pop-up
+		let openImagePopup = (block) => {
+			document.getElementById("popup-title").textContent = block.title;
+		
+			let pictureElement = document.getElementById("popup-image");
+			pictureElement.innerHTML = `
+				<picture>
+					<source media="(max-width: 428px)" srcset="${block.image.thumb.url}">
+					<source media="(max-width: 640px)" srcset="${block.image.large.url}">
+					<img src="${block.image.original.url}" alt="${block.title}">
+				</picture>
+			`;
+		
+			document.getElementById("popup-description").innerHTML = block.description_html || "";
+		
+			document.getElementById("link-popup").classList.add("visible");
+		};
+		
+		document.getElementById("close-link-popup").addEventListener("click", () => {
+			document.getElementById("link-popup").classList.remove("visible");
+		});
+
+	// Text!
+	
+
+	
+
+
+
+
+
+
+
+
+
+	}
 
 
 
