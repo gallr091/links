@@ -128,6 +128,10 @@ footer {
 	display: flex;
   }
 
+  .item:hover{
+	cursor: pointer;
+  }
+
   .block-image {
 	width: 50px;
     height: 50px;
@@ -169,7 +173,7 @@ footer {
     opacity: 1;
 }
 
-#link-popup .popup-content {
+#link-popup .popup-content, .popup-attachment, .popup-image, .popup-embed, .popup-description{
     background: black;
     padding: 2rem;
     max-width: 800px;
@@ -236,46 +240,4 @@ footer {
 
 #popup-link:hover {
     text-decoration: underline;
-}
-
-/* Attachment Pop-up */
-#attachment-popup .popup-content {
-    background: black;
-    padding: 2rem;
-    max-width: 800px;
-    width: 60%;
-    display: flex;
-    flex-direction: column;
-    box-sizing: border-box;
-    text-align: center;
-    align-items: center;
-    max-height: 80vh;
-}
-
-/* Styling for the audio element inside pop-up */
-#popup-attachment audio {
-    width: 100%;
-    margin: 1rem 0;
-}
-
-/* Styling for the attachment link */
-.attachment-link {
-    color: var(--color-blue);
-    text-decoration: none;
-}
-
-.attachment-link:hover {
-    text-decoration: underline;
-}
-
-/* Optional: Styling for the "PDF" and "Audio" labels */
-#popup-attachment em {
-    font-style: italic;
-    color: #888;
-}
-
-audio {
-    width: 100%; /* Adjust to whatever size you need */
-    max-width: 600px; /* Example maximum width */
-    height: 40px; /* Adjust height if necessary */
 }

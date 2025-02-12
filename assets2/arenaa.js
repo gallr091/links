@@ -82,6 +82,13 @@ let renderBlock = (block) => {
 		// open links pop-up
 		let openLinkPopup = (block) => {
 			document.getElementById("popup-title").textContent = block.title;
+
+			// CLEAR PREVIOUS CONTENT THIS IS ACTUALLY IMPORTANT LOL
+			document.getElementById("popup-embed").innerHTML = "";
+			document.getElementById("popup-image").innerHTML = "";
+			document.getElementById("popup-attachment").innerHTML = "";
+			document.getElementById("popup-description").textContent = "";
+			
 			document.getElementById("popup-description").innerHTML = block.description_html;
 
 			let pictureElement = document.getElementById("popup-image");
@@ -123,6 +130,12 @@ let renderBlock = (block) => {
 		// open image pop-up
 		let openImagePopup = (block) => {
 			document.getElementById("popup-title").textContent = block.title;
+
+			// CLEAR PREVIOUS CONTENT THIS IS ACTUALLY IMPORTANT LOL
+			document.getElementById("popup-embed").innerHTML = "";
+			document.getElementById("popup-image").innerHTML = "";
+			document.getElementById("popup-attachment").innerHTML = "";
+			document.getElementById("popup-description").textContent = "";
 		
 			let pictureElement = document.getElementById("popup-image");
 			pictureElement.innerHTML = `
@@ -165,6 +178,13 @@ let renderBlock = (block) => {
 		//open text pop-up
 		let openTextPopup = (block) => {
 			document.getElementById("popup-title").textContent = block.title;
+			
+			// CLEAR PREVIOUS CONTENT THIS IS ACTUALLY IMPORTANT LOL
+			document.getElementById("popup-embed").innerHTML = "";
+			document.getElementById("popup-image").innerHTML = "";
+			document.getElementById("popup-attachment").innerHTML = "";
+			document.getElementById("popup-description").textContent = "";
+
 			document.getElementById("popup-description").innerHTML = block.content_html;
 
 			let popup = document.getElementById("link-popup");
@@ -190,53 +210,118 @@ let renderBlock = (block) => {
 		});
 	}
 
-	let openAttachmentPopup = (block) => {
+		// open attachment pop-up
+		let openAttachmentPopup = (block) => {
+			document.getElementById("popup-title").textContent = block.title;
+
+			// CLEAR PREVIOUS CONTENT THIS IS ACTUALLY IMPORTANT LOL
+			document.getElementById("popup-embed").innerHTML = "";
+			document.getElementById("popup-image").innerHTML = "";
+			document.getElementById("popup-attachment").innerHTML = "";
+			document.getElementById("popup-description").textContent = "";
+
+			// below doesn't work - description is null under attachment blocks???
+			// document.getElementById("popup-description").innerHTML = block.attachment.description || block.description_html || "";
+		
+			let attachmentContent = '';
+			let originalLink = block.attachment.url; 
+		
+			let attachment = block.attachment.content_type;
+		
+			if (attachment.includes('audio')) {
+				attachmentContent = `
+					<p><em>Audio</em></p>
+					<audio controls>
+						<source src="${block.attachment.url}" type="${block.attachment.content_type}">
+					</audio>
+				`;
+			}
+		
+			else if (attachment.includes('pdf')) {
+				attachmentContent = `
+					<p><em>PDF</em></p>
+					<a href="${block.attachment.url}" target="_blank" class="attachment-link">View PDF</a>
+				`;
+			}
+		
+			else {
+				attachmentContent = `
+					<p><em>Attachment</em></p>
+					<a href="${block.attachment.url}" target="_blank" class="attachment-link">Download or view</a>
+				`;
+			}
+		
+			document.getElementById("popup-attachment").innerHTML = attachmentContent;
+		
+			let originalLinkElement = document.getElementById("popup-link");
+			originalLinkElement.setAttribute('href', originalLink);
+			originalLinkElement.textContent = 'see the original ↗';
+		
+			document.getElementById("link-popup").classList.add("visible");
+			};
+		
+			document.getElementById("close-link-popup").addEventListener("click", () => {
+				document.getElementById("link-popup").classList.remove("visible");
+			});
+		
+	// Linked media
+	if (block.class === 'Media') {
+	
+		let videoItem = `
+		<div class="item media-item">
+			<img src="${getBlockImage(block.class)}" alt="${block.class}" class="block-image">
+			<h3>${block.title}</h3>
+		</div>
+		`;
+		channelBlocks.insertAdjacentHTML('beforeend', videoItem);
+	
+		let mediaElement = document.querySelector('.media-item:last-child');
+		mediaElement.addEventListener('click', () => {
+		openMediaPopup(block); 
+		});
+	}
+	
+	// open media pop-up
+	let openMediaPopup = (block) => {
+		if (block.class !== "Media") return;
+	
 		document.getElementById("popup-title").textContent = block.title;
 
-		// below doesn't work - description is null under attachment blocks???
-		// document.getElementById("popup-description").innerHTML = block.attachment.description || block.description_html || "";
+		// CLEAR PREVIOUS CONTENT THIS IS ACTUALLY IMPORTANT LOL
+		document.getElementById("popup-embed").innerHTML = "";
+		document.getElementById("popup-image").innerHTML = "";
+		document.getElementById("popup-attachment").innerHTML = "";
+		document.getElementById("popup-description").textContent = "";
 	
-		let attachmentContent = '';
-		let originalLink = block.attachment.url; 
+		let mediaContent = "";
+		let originalLink = block.media?.url || "#"; 
 	
-		let attachment = block.attachment.content_type;
-	
-		if (attachment.includes('audio')) {
-			attachmentContent = `
-				<p><em>Audio</em></p>
-				<audio controls>
-					<source src="${block.attachment.url}" type="${block.attachment.content_type}">
-				</audio>
-			`;
+		// if (embed.includes('video')) {
+		if (block.embed && block.embed.type && block.embed.html) {
+			if (block.embed.type.includes("video")) {
+				mediaContent = `
+					<p><em>Linked Video</em></p>
+					${block.embed.html}
+				`;
+			}
 		}
 	
-		else if (attachment.includes('pdf')) {
-			attachmentContent = `
-				<p><em>PDF</em></p>
-				<a href="${block.attachment.url}" target="_blank" class="attachment-link">View PDF</a>
-			`;
-		}
-	
-		else {
-			attachmentContent = `
-				<p><em>Attachment</em></p>
-				<a href="${block.attachment.url}" target="_blank" class="attachment-link">Download or view</a>
-			`;
-		}
-	
-		document.getElementById("popup-attachment").innerHTML = attachmentContent;
+		document.getElementById("popup-embed").innerHTML = mediaContent;
 	
 		let originalLinkElement = document.getElementById("popup-link");
-		originalLinkElement.setAttribute('href', originalLink);
-		originalLinkElement.textContent = 'see the original ↗';
+		originalLinkElement.setAttribute("href", originalLink);
+		originalLinkElement.textContent = "see the original ↗";
 	
 		document.getElementById("link-popup").classList.add("visible");
-		};
+	};
 	
-		document.getElementById("close-link-popup").addEventListener("click", () => {
-			document.getElementById("link-popup").classList.remove("visible");
-		});
-		
+	document.getElementById("close-link-popup").addEventListener("click", () => {
+		document.getElementById("link-popup").classList.remove("visible");
+	});
+	
+	
+
+
 
 	
 
