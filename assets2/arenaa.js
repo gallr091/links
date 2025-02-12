@@ -318,14 +318,7 @@ let renderBlock = (block) => {
 	document.getElementById("close-link-popup").addEventListener("click", () => {
 		document.getElementById("link-popup").classList.remove("visible");
 	});
-	
-	
 
-
-
-	
-
-	
 
 
 
