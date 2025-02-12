@@ -73,7 +73,7 @@ let renderBlock = (block) => {
 		`;
 		channelBlocks.insertAdjacentHTML('beforeend', linkItem); 
 
-		const linkElement = document.querySelector('.link-item:last-child');
+		let linkElement = document.querySelector('.link-item:last-child');
 		linkElement.addEventListener('click', () => {
 			openLinkPopup(block); 
 		});
@@ -114,7 +114,7 @@ let renderBlock = (block) => {
 		`;
 		channelBlocks.insertAdjacentHTML('beforeend', imageItem); 
 	
-		const imageElement = document.querySelector('.image-item:last-child');
+		let imageElement = document.querySelector('.image-item:last-child');
 		imageElement.addEventListener('click', () => {
 			openImagePopup(block); 
 		});
@@ -132,6 +132,10 @@ let renderBlock = (block) => {
 					<img src="${block.image.original.url}" alt="${block.title}">
 				</picture>
 			`;
+			
+			// let imageElement = document.getElementById("popup-link");
+			// imageElement.href = block.source.url;
+			// imageElement.textContent = "see the original ↗";
 		
 			document.getElementById("popup-description").innerHTML = block.description_html || "";
 		
@@ -143,6 +147,97 @@ let renderBlock = (block) => {
 		});
 
 	// Text!
+	 if (block.class === 'Text') {
+		let textItem = `
+			<div class="item text-item">
+				<img src="${getBlockImage(block.class)}" alt="${block.class}" class="block-image">
+				<h3>${block.title}</h3> 
+			</div>
+		`;
+		channelBlocks.insertAdjacentHTML('beforeend', textItem);
+	
+		const textElement = document.querySelector('.text-item:last-child');
+		textElement.addEventListener('click', () => {
+			openTextPopup(block);
+		});
+	}
+	
+		//open text pop-up
+		let openTextPopup = (block) => {
+			document.getElementById("popup-title").textContent = block.title;
+			document.getElementById("popup-description").innerHTML = block.content_html;
+
+			let popup = document.getElementById("link-popup");
+			popup.classList.remove("image-popup", "link-popup");
+			popup.classList.add("text-popup");
+
+			document.getElementById("link-popup").classList.add("visible");
+		};
+
+	// Attachments
+	if (block.class == 'Attachment') {
+		let attachmentItem = `
+			<div class="item attachment-item">
+				<img src="${getBlockImage(block.class)}" alt="${block.class}" class="block-image">
+				<h3>${block.title}</h3> 
+			</div>
+		`;
+		channelBlocks.insertAdjacentHTML('beforeend', attachmentItem);
+
+		let attachmentElement = document.querySelector('.attachment-item:last-child');
+		attachmentElement.addEventListener('click', () => {
+			openAttachmentPopup(block);
+		});
+	}
+
+	let openAttachmentPopup = (block) => {
+		document.getElementById("popup-title").textContent = block.title;
+
+		// below doesn't work - description is null under attachment blocks???
+		// document.getElementById("popup-description").innerHTML = block.attachment.description || block.description_html || "";
+	
+		let attachmentContent = '';
+		let originalLink = block.attachment.url; 
+	
+		let attachment = block.attachment.content_type;
+	
+		if (attachment.includes('audio')) {
+			attachmentContent = `
+				<p><em>Audio</em></p>
+				<audio controls>
+					<source src="${block.attachment.url}" type="${block.attachment.content_type}">
+				</audio>
+			`;
+		}
+	
+		else if (attachment.includes('pdf')) {
+			attachmentContent = `
+				<p><em>PDF</em></p>
+				<a href="${block.attachment.url}" target="_blank" class="attachment-link">View PDF</a>
+			`;
+		}
+	
+		else {
+			attachmentContent = `
+				<p><em>Attachment</em></p>
+				<a href="${block.attachment.url}" target="_blank" class="attachment-link">Download or view</a>
+			`;
+		}
+	
+		document.getElementById("popup-attachment").innerHTML = attachmentContent;
+	
+		let originalLinkElement = document.getElementById("popup-link");
+		originalLinkElement.setAttribute('href', originalLink);
+		originalLinkElement.textContent = 'see the original ↗';
+	
+		document.getElementById("link-popup").classList.add("visible");
+		};
+	
+		document.getElementById("close-link-popup").addEventListener("click", () => {
+			document.getElementById("link-popup").classList.remove("visible");
+		});
+		
+
 	
 
 	
