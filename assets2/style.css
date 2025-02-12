@@ -48,13 +48,14 @@ h1 {
 nav {
 	font-size: 2rem;
 	font-weight: 200;
-	height: 20vh;
+	/* height: 20vh; */
 }
 
 #nav-links {
 	list-style-type: none;
 	line-height: 1.5;
 }
+
 #nav-links:hover{
 	cursor: pointer;
 }
@@ -246,6 +247,7 @@ footer {
 	main {
 		display: flex;
 		flex-direction: column;
+		overflow-x: hidden;
 	}	
 
 	#website-info {
@@ -253,16 +255,30 @@ footer {
 	position: relative;
 	height: 100vh;
 	overflow-y: visible;
+	/* flex-direction: row; */
 	}
 
 	#ascii-text{
-	transform: scale(0.85);
+	transform: scale(0.5);
 	}
 
 	h1 {
-		height: 70vh;
-		margin-right: 200vh;
-		}
+		/* height: 70vh; */
+		/* margin-right: 200vh; */
+		height: 30vh;
+		/* padding-right: 12rem; */
+		/* padding-top: 15rem; */
+		margin-right: 22rem;
+	}
+
+	nav{
+		font-size: 1rem;
+	}
+
+	footer{
+		font-size: 0.7rem;
+		height: 30vh;
+	}
 
 	#content{
 	margin-top: 10rem;
@@ -274,4 +290,36 @@ footer {
 	.channel-blocks {
 		border-left: none;
 	}
+
+	h3{
+		font-size: 1rem;
+	}
+
+	.channel-blocks{
+		border-top: 2px solid black; 
+	}
+
+	.popup-content {
+	 width: auto;
+	}
+
+	h2 {
+		font-size: 1.5rem;
+	}
+	
+	#channel-description{
+		font-size: 0.8rem;
+	}
+
+	#link-popup .popup-content{
+		width: auto;
+		height: auto;
+	}
+
+	#popup-title {
+		font-size: 1.2rem;
+		/* margin-bottom: 0.5rem; */
+		text-align: center;
+	}
+
 }
