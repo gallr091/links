@@ -27,6 +27,7 @@ main {
 	max-height: 100vh;
 }
 
+
 /* WEBSITE INFO */
 #website-info {
 	width: 60vw;
@@ -45,6 +46,32 @@ h1 {
 #arena-link:hover{
 	cursor: pointer;
 }
+
+
+#mjs-wrapper {
+	margin: 1em; 
+	height: 100%;
+  }
+
+  #mjs-wrapper ul {
+	font-size: 14pt;
+	list-style: none;
+	user-select: none;
+	position: relative;
+  }
+
+  #mjs-wrapper li {
+	background: var(--color-grey);
+	border: 2px black;
+	border-style: dashed ;
+	display: inline-block;
+	padding: 1em;
+	cursor: pointer;
+  }
+  
+  #mjs-wrapper li:hover {
+	background: #f2f2f2;
+  }
 
 nav {
 	font-size: 2rem;
@@ -114,13 +141,12 @@ footer {
 #content{
 	overflow-y: auto;
 	width: 40vw;
-
 }
 
 .channel-blocks {
 	display: grid;
 	grid-template-columns: 1fr; 
-	grid-template-rows: repeat(50, 1fr); 
+	grid-template-rows: repeat(1, 1fr); 
 	border-left: 2px solid black; 
   }
   
