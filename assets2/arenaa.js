@@ -96,7 +96,7 @@ let renderBlock = (block) => {
 						<source media="(max-width: 640px)" srcset="${block.image.large.url}">
 						<img src="${block.image.original.url}" alt="${block.title}">
 					</picture>
-					<p>${block.description_html}</p>
+					<p id="popup-description">${block.description_html}</p>
 					<p><a href="${ block.source.url }">see the original ↗</a></p>
 				</div>
 			`;		
@@ -192,7 +192,7 @@ let renderBlock = (block) => {
 						<source media="(max-width: 640px)" srcset="${block.image.large.url}">
 						<img src="${block.image.original.url}" alt="${block.title}">
 					</picture>
-					<p>${block.description_html || ""}</p>
+						<p id="popup-description">${block.description_html}</p>
 					<p><a href="http://are.na/block/${block.id}" target="_blank">see the original ↗</a></p>
 				</div>
 			`;      
@@ -210,6 +210,10 @@ let renderBlock = (block) => {
 		
 			popupContainer.style.left = `${randomX}px`;
 			popupContainer.style.top = `${randomY}px`;
+
+			popupContainer.style.setProperty('--test-property', '100px');
+			//set property as variable -> allows to use css specifity
+			//left and top makes it hard on mobile
 		
 			setTimeout(() => {
 				popupContainer.style.opacity = "1";
@@ -254,10 +258,10 @@ let renderBlock = (block) => {
 				<span class="close-link-popup">&times;</span>
 				<h3>${block.title}</h3>
 				<div class="popup-flex-container">
-					<p id="popup-description">${block.content_html}</p> 
+					${block.content_html}
 					<p>${block.description_html || ""}</p>
-					<p><a href="http://are.na/block/${block.id}" target="_blank">see the original ↗</a></p>
 				</div>
+				<p><a href="http://are.na/block/${block.id}" target="_blank">see the original ↗</a></p>
 			`;      
 		
 			document.body.appendChild(popupContainer);
@@ -272,6 +276,11 @@ let renderBlock = (block) => {
 			let randomY = Math.max(10, Math.random() * (viewportHeight - popupHeight - 20));
 		
 			popupContainer.style.left = `${randomX}px`;
+
+			// --x-pos: 0.5;
+
+			// calc(var(--x-pos) * 100vh)
+
 			popupContainer.style.top = `${randomY}px`;
 		
 			setTimeout(() => {
@@ -323,57 +332,145 @@ let renderBlock = (block) => {
 
 		// open attachment pop-up
 		let openAttachmentPopup = (block) => {
-			document.getElementById("popup-title").textContent = block.title;
-
-			// CLEAR PREVIOUS CONTENT THIS IS ACTUALLY IMPORTANT LOL
-			document.getElementById("popup-embed").innerHTML = "";
-			document.getElementById("popup-image").innerHTML = "";
-			document.getElementById("popup-attachment").innerHTML = "";
-			document.getElementById("popup-description").textContent = "";
-
-			// below doesn't work - description is null under attachment blocks???
-			// document.getElementById("popup-description").innerHTML = block.attachment.description || block.description_html || "";
+			console.log("openAttachmentPopup function triggered", block);
 		
+			let popupContainer = document.createElement("div"); 
+			popupContainer.classList.add("popup-content");
+			popupContainer.style.position = "absolute";
+			popupContainer.style.opacity = "0"; 
+		
+			popupContainer.innerHTML = `
+				<span class="close-link-popup">&times;</span>
+				<h3>${block.title}</h3>
+				<div class="popup-flex-container">
+					<div id="popup-attachment"></div> 
+					<p id="popup-description">${block.content_html || ""}</p> 
+					<p>${block.description_html || ""}</p>
+					<p><a href="http://are.na/block/${block.id}" target="_blank">see the original ↗</a></p>
+				</div>
+			`;
+		
+			document.body.appendChild(popupContainer);
+		
+			console.log("Attachment: ", block.attachment);
+			// let attachment = block.attachment.content_type 
 			let attachmentContent = '';
-			let originalLink = block.attachment.url; 
-		
-			let attachment = block.attachment.content_type;
-		
-			if (attachment.includes('audio')) {
-				attachmentContent = `
-					<p><em>Audio</em></p>
-					<audio controls>
-						<source src="${block.attachment.url}" type="${block.attachment.content_type}">
-					</audio>
-				`;
+			let popupFlexContainer = document.getElementsByClassName("popup-flex-container");
+
+			if (block.attachment && block.attachment.content_type) {
+				let attachmentType = block.attachment.content_type;
+				console.log("Attachment Type: ", attachmentType);
+
+				// audio
+				if (attachmentType.includes('audio')) {
+					attachmentContent = `
+						<p><em>Audio</em></p>
+						<audio controls>
+							<source src="${block.attachment.url}" type="${block.attachment.content_type}">
+						</audio>
+					`;
+				} 
+
+				// pdf
+				else if (attachmentType.includes('pdf')) {
+					attachmentContent = `
+						<p><em>PDF</em></p>
+						<a href="${block.attachment.url}" target="_blank" class="attachment-link">View PDF</a>
+					`;
+				}
+
+				// etc
+				else {
+					attachmentContent = `
+						<p><em>Attachment</em></p>
+						<a href="${block.attachment.url}" target="_blank" class="attachment-link">Download or view</a>
+					`;
+				}
+
+				// this is not working but i need it to
+				console.log(popupContainer)
+				popupContainer.querySelector("#popup-attachment").innerHTML = attachmentContent;	
+				// popupFlexContainer.insertAdjacentHTML('beforeend', attachmentContent);
 			}
+			
+				
+			// random pos
+			let viewportWidth = window.innerWidth;
+			let viewportHeight = window.innerHeight;
+			let popupWidth = popupContainer.offsetWidth || 300;
+			let popupHeight = popupContainer.offsetHeight || 200;
 		
-			else if (attachment.includes('pdf')) {
-				attachmentContent = `
-					<p><em>PDF</em></p>
-					<a href="${block.attachment.url}" target="_blank" class="attachment-link">View PDF</a>
-				`;
-			}
+			let randomX = Math.max(10, Math.random() * (viewportWidth - popupWidth - 20));
+			let randomY = Math.max(10, Math.random() * (viewportHeight - popupHeight - 20));
 		
-			else {
-				attachmentContent = `
-					<p><em>Attachment</em></p>
-					<a href="${block.attachment.url}" target="_blank" class="attachment-link">Download or view</a>
-				`;
-			}
+			popupContainer.style.left = `${randomX}px`;
+			popupContainer.style.top = `${randomY}px`;
 		
-			document.getElementById("popup-attachment").innerHTML = attachmentContent;
+			setTimeout(() => {
+				popupContainer.style.opacity = "1";
+			}, 50);
 		
-			let originalLinkElement = document.getElementById("popup-link");
-			originalLinkElement.setAttribute('href', originalLink);
-			originalLinkElement.textContent = 'see the original ↗';
-		
-			document.getElementById("link-popup").classList.add("visible");
-			};
-		
-			document.getElementById("close-link-popup").addEventListener("click", () => {
-				document.getElementById("link-popup").classList.remove("visible");
+			// close
+			popupContainer.querySelector(".close-link-popup").addEventListener("click", () => {
+				popupContainer.style.opacity = "0";
+				setTimeout(() => popupContainer.remove(), 300);
 			});
+		
+			makeDraggable(popupContainer);
+		};
+
+		// let openAttachmentPopup = (block) => {
+		// 	document.getElementById("popup-title").textContent = block.title;
+
+		// 	// CLEAR PREVIOUS CONTENT THIS IS ACTUALLY IMPORTANT LOL
+		// 	document.getElementById("popup-embed").innerHTML = "";
+		// 	document.getElementById("popup-image").innerHTML = "";
+		// 	document.getElementById("popup-attachment").innerHTML = "";
+		// 	document.getElementById("popup-description").textContent = "";
+
+		// 	// below doesn't work - description is null under attachment blocks???
+		// 	// document.getElementById("popup-description").innerHTML = block.attachment.description || block.description_html || "";
+		
+		// 	let attachmentContent = '';
+		// 	let originalLink = block.attachment.url; 
+		
+		// 	let attachment = block.attachment.content_type;
+		
+		// 	if (attachment.includes('audio')) {
+		// 		attachmentContent = `
+		// 			<p><em>Audio</em></p>
+		// 			<audio controls>
+		// 				<source src="${block.attachment.url}" type="${block.attachment.content_type}">
+		// 			</audio>
+		// 		`;
+		// 	}
+		
+		// 	else if (attachment.includes('pdf')) {
+		// 		attachmentContent = `
+		// 			<p><em>PDF</em></p>
+		// 			<a href="${block.attachment.url}" target="_blank" class="attachment-link">View PDF</a>
+		// 		`;
+		// 	}
+		
+		// 	else {
+		// 		attachmentContent = `
+		// 			<p><em>Attachment</em></p>
+		// 			<a href="${block.attachment.url}" target="_blank" class="attachment-link">Download or view</a>
+		// 		`;
+		// 	}
+		
+		// 	document.getElementById("popup-attachment").innerHTML = attachmentContent;
+		
+		// 	let originalLinkElement = document.getElementById("popup-link");
+		// 	originalLinkElement.setAttribute('href', originalLink);
+		// 	originalLinkElement.textContent = 'see the original ↗';
+		
+		// 	document.getElementById("link-popup").classList.add("visible");
+		// 	};
+		
+		// 	document.getElementById("close-link-popup").addEventListener("click", () => {
+		// 		document.getElementById("link-popup").classList.remove("visible");
+		// 	});
 		
 	// Linked media
 	if (block.class === 'Media') {
@@ -478,3 +575,12 @@ fetch(`https://api.are.na/v2/channels/${channelSlug}?per=100`, { cache: 'no-stor
 
 		console.log(data);
 	})
+
+
+
+	//random position: mobile %
+	// use document.body.style.setProperty("--text", "world") for random position
+	// standardize aesthetic: 3 conflicting ones (ascii, pixel all black)
+	// dont have to use matter.js for mobile, maybe cheese it with css 
+
+	

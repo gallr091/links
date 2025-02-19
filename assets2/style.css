@@ -184,6 +184,11 @@ footer {
   }
 	
 /* pop up */
+
+#hide-this {
+	display: none;
+}
+
 #link-popup {
     position: absolute;
     top: 0;
@@ -275,7 +280,7 @@ footer {
     opacity: 1;
 }
 
-#link-popup .popup-content, .popup-attachment, .popup-image, .popup-embed, .popup-description{
+#link-popup .popup-content, .popup-image, .popup-embed, .popup-description{
     background: black;
     padding: 2rem;
     max-width: 800px;
@@ -322,8 +327,20 @@ footer {
     margin: 0 auto;
 }
 
+.popup-flex-container{
+	font-size: 0.8rem;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+    margin-top: 2rem;
+    max-height: 50vh; 
+    overflow-y: auto;  
+    width: 100%; 
+    padding-right: 10px;     
+    text-align: left;  
+}
+
 #popup-description {
-    font-size: 0.8rem;
+    font-size: 0.5rem;
     line-height: 1.5;
     margin-bottom: 1rem;
     margin-top: 2rem;

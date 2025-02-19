@@ -95,7 +95,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // bounds
-  const ground = Matter.Bodies.rectangle(400, 550, 800, 20, { isStatic: true });
+  const ground = Matter.Bodies.rectangle(400, 450, 800, 20, { isStatic: true });
   const leftWall = Matter.Bodies.rectangle(0, 250, 20, 500, { isStatic: true });
   const rightWall = Matter.Bodies.rectangle(700, 250, 20, 500, { isStatic: true });
 
