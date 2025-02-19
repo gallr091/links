@@ -304,6 +304,11 @@ footer {
     text-align: center;
 }
 
+iframe[src*="youtube"] {
+	width: 100% !important;
+	height: 100% !important;
+}
+
 #close-link-popup {
     position: absolute;
     top: 0px;

@@ -404,36 +404,36 @@ let renderBlock = (block) => {
 				}
 
 				// this is not working but i need it to
+				// jk it works now
 				console.log(popupContainer)
 				popupContainer.querySelector("#popup-attachment").innerHTML = attachmentContent;	
 				// popupFlexContainer.insertAdjacentHTML('beforeend', attachmentContent);
 			}
 			
-				
-			// random pos
-			let viewportWidth = window.innerWidth;
-			let viewportHeight = window.innerHeight;
-			let popupWidth = popupContainer.offsetWidth || 300;
-			let popupHeight = popupContainer.offsetHeight || 200;
-		
-			let randomX = Math.max(10, Math.random() * (viewportWidth - popupWidth - 20));
-			let randomY = Math.max(10, Math.random() * (viewportHeight - popupHeight - 20));
-		
-			popupContainer.style.left = `${randomX}px`;
-			popupContainer.style.top = `${randomY}px`;
-		
-			setTimeout(() => {
-				popupContainer.style.opacity = "1";
-			}, 50);
-		
-			// close
-			popupContainer.querySelector(".close-link-popup").addEventListener("click", () => {
-				popupContainer.style.opacity = "0";
-				setTimeout(() => popupContainer.remove(), 300);
-			});
-		
-			makeDraggable(popupContainer);
-		};
+				// random pos
+				let viewportWidth = window.innerWidth;
+				let viewportHeight = window.innerHeight;
+				let popupWidth = popupContainer.offsetWidth || 300;
+				let popupHeight = popupContainer.offsetHeight || 200;
+			
+				let randomX = Math.max(10, Math.random() * (viewportWidth - popupWidth - 20));
+				let randomY = Math.max(10, Math.random() * (viewportHeight - popupHeight - 20));
+			
+				popupContainer.style.left = `${randomX}px`;
+				popupContainer.style.top = `${randomY}px`;
+			
+				setTimeout(() => {
+					popupContainer.style.opacity = "1";
+				}, 50);
+			
+				// close
+				popupContainer.querySelector(".close-link-popup").addEventListener("click", () => {
+					popupContainer.style.opacity = "0";
+					setTimeout(() => popupContainer.remove(), 300);
+				});
+			
+				makeDraggable(popupContainer);
+			};
 
 		// let openAttachmentPopup = (block) => {
 		// 	document.getElementById("popup-title").textContent = block.title;
@@ -488,7 +488,7 @@ let renderBlock = (block) => {
 		// 		document.getElementById("link-popup").classList.remove("visible");
 		// 	});
 		
-	// Linked media
+	// linked media
 	if (block.class === 'Media') {
 	
 		let videoItem = `
@@ -507,41 +507,101 @@ let renderBlock = (block) => {
 	
 	// open media pop-up
 	let openMediaPopup = (block) => {
-		if (block.class !== "Media") return;
-	
-		document.getElementById("popup-title").textContent = block.title;
+			console.log("openMediaPopup function triggered", block);
 
-		// CLEAR PREVIOUS CONTENT THIS IS ACTUALLY IMPORTANT LOL
-		document.getElementById("popup-embed").innerHTML = "";
-		document.getElementById("popup-image").innerHTML = "";
-		document.getElementById("popup-attachment").innerHTML = "";
-		document.getElementById("popup-description").textContent = "";
+			let embed = block.embed.type
+
+			let popupContainer = document.createElement("div"); 
+			popupContainer.classList.add("popup-content");
+			popupContainer.style.position = "absolute";
+			popupContainer.style.opacity = "0"; 
+		
+			popupContainer.innerHTML = `
+				<span class="close-link-popup">&times;</span>
+				<h3>${block.title}</h3>
+				<div class="popup-flex-container">
+					<div id="popup-embed"></div> 
+					<p id="popup-description">${block.content_html || ""}</p> 
+					<p>${block.description_html || ""}</p>
+					<p><a href="http://are.na/block/${block.id}" target="_blank">see the original ↗</a></p>
+				</div>
+				`;      
+		
+			document.body.appendChild(popupContainer);
+
+			let mediaContent = '';
+
+			 if (embed.includes('video')) {
+				
+						mediaContent = `
+							<p><em>Linked Video</em></p>
+							${block.embed.html}
+						`;
+					}
+				
+			
+				popupContainer.querySelector("#popup-embed").innerHTML = mediaContent;	
+			
+			// random pos
+				let viewportWidth = window.innerWidth;
+				let viewportHeight = window.innerHeight;
+				let popupWidth = popupContainer.offsetWidth || 300;
+				let popupHeight = popupContainer.offsetHeight || 200;
+			
+				let randomX = Math.max(10, Math.random() * (viewportWidth - popupWidth - 20));
+				let randomY = Math.max(10, Math.random() * (viewportHeight - popupHeight - 20));
+			
+				popupContainer.style.left = `${randomX}px`;
+				popupContainer.style.top = `${randomY}px`;
+			
+				setTimeout(() => {
+					popupContainer.style.opacity = "1";
+				}, 50);
+			
+			// close
+			popupContainer.querySelector(".close-link-popup").addEventListener("click", () => {
+				popupContainer.style.opacity = "0";
+				setTimeout(() => popupContainer.remove(), 300);
+			});
+		
+			makeDraggable(popupContainer);
+		};
+
+	// 	if (block.class !== "Media") return;
 	
-		let mediaContent = "";
-		let originalLink = block.media?.url || "#"; 
+	// 	document.getElementById("popup-title").textContent = block.title;
+
+	// 	// CLEAR PREVIOUS CONTENT THIS IS ACTUALLY IMPORTANT LOL
+	// 	document.getElementById("popup-embed").innerHTML = "";
+	// 	document.getElementById("popup-image").innerHTML = "";
+	// 	document.getElementById("popup-attachment").innerHTML = "";
+	// 	document.getElementById("popup-description").textContent = "";
 	
-		// if (embed.includes('video')) {
-		if (block.embed && block.embed.type && block.embed.html) {
-			if (block.embed.type.includes("video")) {
-				mediaContent = `
-					<p><em>Linked Video</em></p>
-					${block.embed.html}
-				`;
-			}
-		}
+	// 	let mediaContent = "";
+	// 	let originalLink = block.media?.url || "#"; 
 	
-		document.getElementById("popup-embed").innerHTML = mediaContent;
+	// 	// if (embed.includes('video')) {
+	// 	if (block.embed && block.embed.type && block.embed.html) {
+	// 		if (block.embed.type.includes("video")) {
+	// 			mediaContent = `
+	// 				<p><em>Linked Video</em></p>
+	// 				${block.embed.html}
+	// 			`;
+	// 		}
+	// 	}
 	
-		let originalLinkElement = document.getElementById("popup-link");
-		originalLinkElement.setAttribute("href", originalLink);
-		originalLinkElement.textContent = "see the original ↗";
+	// 	document.getElementById("popup-embed").innerHTML = mediaContent;
 	
-		document.getElementById("link-popup").classList.add("visible");
-	};
+	// 	let originalLinkElement = document.getElementById("popup-link");
+	// 	originalLinkElement.setAttribute("href", originalLink);
+	// 	originalLinkElement.textContent = "see the original ↗";
 	
-	document.getElementById("close-link-popup").addEventListener("click", () => {
-		document.getElementById("link-popup").classList.remove("visible");
-	});
+	// 	document.getElementById("link-popup").classList.add("visible");
+	// };
+	
+	// document.getElementById("close-link-popup").addEventListener("click", () => {
+	// 	document.getElementById("link-popup").classList.remove("visible");
+	// });
 
 
 
