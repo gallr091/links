@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
       bodies.push(body);
       Matter.World.add(world, body);
 
-      // filter items
+      // filter blocks
       el.addEventListener("click", () => {
         console.log(el.textContent); 
     
@@ -51,74 +51,46 @@ document.addEventListener("DOMContentLoaded", () => {
     
         let allItems = [...image, ...attachment, ...link, ...media, ...text];
         allItems.forEach(item => item.style.display = "flex");
-    
+
+
         if (el.textContent === "Images") {
-            for (let i = 0; i < attachment.length; i++) {
-                attachment[i].style.display = "none";
-            }
-            for (let i = 0; i < link.length; i++) {
-                link[i].style.display = "none";
-            }
-            for (let i = 0; i < media.length; i++) {
-                media[i].style.display = "none";
-            }
-            for (let i = 0; i < text.length; i++) {
-                text[i].style.display = "none";
-            }
+            hideItems(attachment, link, media, text);
         } else if (el.textContent === "Attachments") {
-            for (let i = 0; i < image.length; i++) {
-                image[i].style.display = "none";
-            }
-            for (let i = 0; i < link.length; i++) {
-                link[i].style.display = "none";
-            }
-            for (let i = 0; i < media.length; i++) {
-                media[i].style.display = "none";
-            }
-            for (let i = 0; i < text.length; i++) {
-                text[i].style.display = "none";
-            }
+            hideItems(image, link, media, text);
         } else if (el.textContent === "Links") {
-            for (let i = 0; i < image.length; i++) {
-                image[i].style.display = "none";
-            }
-            for (let i = 0; i < attachment.length; i++) {
-                attachment[i].style.display = "none";
-            }
-            for (let i = 0; i < media.length; i++) {
-                media[i].style.display = "none";
-            }
-            for (let i = 0; i < text.length; i++) {
-                text[i].style.display = "none";
-            }
+            hideItems(image, attachment, media, text);
         } else if (el.textContent === "Media") {
-            for (let i = 0; i < image.length; i++) {
-                image[i].style.display = "none";
-            }
-            for (let i = 0; i < attachment.length; i++) {
-                attachment[i].style.display = "none";
-            }
-            for (let i = 0; i < link.length; i++) {
-                link[i].style.display = "none";
-            }
-            for (let i = 0; i < text.length; i++) {
-                text[i].style.display = "none";
-            }
+            hideItems(image, attachment, link, text);
         } else if (el.textContent === "Text") {
-            for (let i = 0; i < image.length; i++) {
-                image[i].style.display = "none";
-            }
-            for (let i = 0; i < attachment.length; i++) {
-                attachment[i].style.display = "none";
-            }
-            for (let i = 0; i < link.length; i++) {
-                link[i].style.display = "none";
-            }
-            for (let i = 0; i < media.length; i++) {
-                media[i].style.display = "none";
-            }
-        }
+            hideItems(image, attachment, link, media);
+        } else if (el.textContent === "Show All") {
+          allItems.forEach(item => item.style.borderBottom = "2px solid black");
+      }
+
+        if (el.textContent !== "Show All") {
+          removeLastItemBorder(image);
+          removeLastItemBorder(attachment);
+          removeLastItemBorder(link);
+          removeLastItemBorder(media);
+          removeLastItemBorder(text);
+      }
     });
+
+
+    function hideItems(...categories) {
+        categories.forEach(category => {
+            for (let i = 0; i < category.length; i++) {
+                category[i].style.display = "none";
+            }
+        });
+}
+
+    // this is weird sorry lol
+    function removeLastItemBorder(items) {
+      if (items.length > 0) {
+          items[items.length - 1].style.borderBottom = "none";
+      }
+    }
     
   });
 
@@ -172,7 +144,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   });
 
-  // Sync list items with physics bodies
+  // sync
   (function update() {
       requestAnimationFrame(update);
 
@@ -187,6 +159,6 @@ document.addEventListener("DOMContentLoaded", () => {
       Matter.Engine.update(engine);
   })();
 
-  // engine
+  // run engine
   Matter.Runner.run(Matter.Runner.create(), engine);
 });
