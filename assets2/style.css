@@ -19,6 +19,7 @@
 body {
 	background: var(--color-grey);
 	font-family: var(--body-font);
+	/* overflow-y: hidden; */
 }
 
 main {
@@ -225,6 +226,48 @@ footer {
     cursor: pointer;
 }
 
+.popup-content {
+    position: absolute;
+    background: black;
+    padding: 1.5rem;
+    max-width: 400px;
+    width: auto;
+    max-height: 80vh;
+    color: white;
+    text-align: center;
+    opacity: 0;
+    border-radius: 10px;
+    cursor: grab;
+    z-index: 1; /* Ensure they stack properly */
+    transition: opacity 0.3s ease-in-out;
+	overflow: auto;
+}
+
+.close-link-popup {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.popup-content:active {
+    cursor: grabbing;
+}
+
+.popup-flex-container picture {
+    max-width: 100%;   
+    width: 100%;    
+    height: auto;      
+}
+
+.popup-flex-container img {
+    width: 100%;    
+    height: auto;      
+    max-width: 100%;   
+    display: block;   
+    margin: 0 auto;   
+}
 
 
 #link-popup.visible {

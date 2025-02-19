@@ -81,35 +81,80 @@ let renderBlock = (block) => {
 
 		// open links pop-up
 		let openLinkPopup = (block) => {
-			document.getElementById("popup-title").textContent = block.title;
-
-			// CLEAR PREVIOUS CONTENT THIS IS ACTUALLY IMPORTANT LOL
-			document.getElementById("popup-embed").innerHTML = "";
-			document.getElementById("popup-image").innerHTML = "";
-			document.getElementById("popup-attachment").innerHTML = "";
-			document.getElementById("popup-description").textContent = "";
+			let popupContainer = document.createElement("div"); 
+			popupContainer.classList.add("popup-content");
+			popupContainer.style.position = "absolute";
+			popupContainer.style.opacity = "0"; 
+			popupContainer.innerHTML = `
+				<span class="close-link-popup">&times;</span>
+				<h3>${block.title}</h3>
+				<div class="popup-flex-container">
+					<picture>
+						<source media="(max-width: 428px)" srcset="${block.image.thumb.url}">
+						<source media="(max-width: 640px)" srcset="${block.image.large.url}">
+						<img src="${block.image.original.url}" alt="${block.title}">
+					</picture>
+					<p>${block.description_html}</p>
+					<p><a href="${ block.source.url }">see the original ↗</a></p>
+				</div>
+			`;		
+		
+			document.body.appendChild(popupContainer); 
+		
+			// random pos
+			let viewportWidth = window.innerWidth;
+			let viewportHeight = window.innerHeight;
+			let popupWidth = popupContainer.offsetWidth || 300;
+			let popupHeight = popupContainer.offsetHeight || 200;
 			
-			document.getElementById("popup-description").innerHTML = block.description_html;
+			let randomX = Math.max(10, Math.random() * (viewportWidth - popupWidth - 20));
+			let randomY = Math.max(10, Math.random() * (viewportHeight - popupHeight - 20));
+			// let randomY = Math.max(10, Math.min(viewportHeight - popupHeight - 20, Math.random() * (viewportHeight - popupHeight - 20)));
 
-			let pictureElement = document.getElementById("popup-image");
-			pictureElement.innerHTML = `
-				<picture>
-					<source media="(max-width: 428px)" srcset="${block.image.thumb.url}">
-					<source media="(max-width: 640px)" srcset="${block.image.large.url}">
-					<img src="${block.image.original.url}" alt="${block.title}">
-				</picture>
-			`;
-
-			let linkElement = document.getElementById("popup-link");
-			linkElement.href = block.source.url;
-			linkElement.textContent = "see the original ↗";
-
-			document.getElementById("link-popup").classList.add("visible");
+			popupContainer.style.left = `${randomX}px`;
+			popupContainer.style.top = `${randomY}px`;
+		
+			setTimeout(() => {
+				popupContainer.style.opacity = "1";
+			}, 50);
+		
+			// close
+			popupContainer.querySelector(".close-link-popup").addEventListener("click", () => {
+				popupContainer.style.opacity = "0";
+				setTimeout(() => popupContainer.remove(), 300); 
+			});
+		
+			makeDraggable(popupContainer);
 		};
-
-		document.getElementById("close-link-popup").addEventListener("click", () => {
-			document.getElementById("link-popup").classList.remove("visible");
-		});
+		
+		// drag
+		function makeDraggable(popup) {
+			let offsetX = 0, offsetY = 0, isDragging = false;
+		
+			popup.addEventListener("mousedown", (e) => {
+				isDragging = true;
+				offsetX = e.clientX - popup.getBoundingClientRect().left;
+				// offsetX = e.clientX - popup.getBoundingClientRect().right;
+				offsetY = e.clientY - popup.getBoundingClientRect().top;
+				popup.style.zIndex = 1000; 
+			});
+		
+			document.addEventListener("mousemove", (e) => {
+				if (!isDragging) return;
+				popup.style.left = `${e.clientX - offsetX}px`;
+				popup.style.top = `${e.clientY - offsetY}px`;
+			});
+		
+			document.addEventListener("mouseup", () => {
+				isDragging = false;
+			});
+		
+			popup.addEventListener("mousedown", () => {
+				document.querySelectorAll(".popup-content").forEach(p => p.style.zIndex = 1);
+				popup.style.zIndex = 1000;
+			});
+		}
+		//problem: empty space created below because of pop-up ypos when it's too low
 
 	// Images!
 	if (block.class === 'Image') {
