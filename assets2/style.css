@@ -238,7 +238,7 @@ footer {
     opacity: 0;
     border-radius: 10px;
     cursor: grab;
-    z-index: 1; /* Ensure they stack properly */
+    z-index: 1; 
     transition: opacity 0.3s ease-in-out;
 	overflow: auto;
 }
