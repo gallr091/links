@@ -193,7 +193,7 @@ let renderBlock = (block) => {
 						<img src="${block.image.original.url}" alt="${block.title}">
 					</picture>
 					<p>${block.description_html || ""}</p>
-					<p><a href="${block.image.original.url}" target="_blank">see the original ↗</a></p>
+					<p><a href="http://are.na/block/${block.id}" target="_blank">see the original ↗</a></p>
 				</div>
 			`;      
 		
@@ -242,22 +242,68 @@ let renderBlock = (block) => {
 	
 		//open text pop-up
 		let openTextPopup = (block) => {
-			document.getElementById("popup-title").textContent = block.title;
-			
-			// CLEAR PREVIOUS CONTENT THIS IS ACTUALLY IMPORTANT LOL
-			document.getElementById("popup-embed").innerHTML = "";
-			document.getElementById("popup-image").innerHTML = "";
-			document.getElementById("popup-attachment").innerHTML = "";
-			document.getElementById("popup-description").textContent = "";
+			console.log("openTextPopup function triggered", block);
 
-			document.getElementById("popup-description").innerHTML = block.content_html;
-
-			let popup = document.getElementById("link-popup");
-			popup.classList.remove("image-popup", "link-popup");
-			popup.classList.add("text-popup");
-
-			document.getElementById("link-popup").classList.add("visible");
+			let popupContainer = document.createElement("div"); 
+			popupContainer.classList.add("popup-content");
+			popupContainer.style.position = "absolute";
+			popupContainer.style.opacity = "0"; 
+		
+			//block.content instead of block.content_html? or maybe just fix styling
+			popupContainer.innerHTML = `
+				<span class="close-link-popup">&times;</span>
+				<h3>${block.title}</h3>
+				<div class="popup-flex-container">
+					<p id="popup-description">${block.content_html}</p> 
+					<p>${block.description_html || ""}</p>
+					<p><a href="http://are.na/block/${block.id}" target="_blank">see the original ↗</a></p>
+				</div>
+			`;      
+		
+			document.body.appendChild(popupContainer);
+		
+			// random pos
+			let viewportWidth = window.innerWidth;
+			let viewportHeight = window.innerHeight;
+			let popupWidth = popupContainer.offsetWidth || 300;
+			let popupHeight = popupContainer.offsetHeight || 200;
+		
+			let randomX = Math.max(10, Math.random() * (viewportWidth - popupWidth - 20));
+			let randomY = Math.max(10, Math.random() * (viewportHeight - popupHeight - 20));
+		
+			popupContainer.style.left = `${randomX}px`;
+			popupContainer.style.top = `${randomY}px`;
+		
+			setTimeout(() => {
+				popupContainer.style.opacity = "1";
+			}, 50);
+		
+			// close
+			popupContainer.querySelector(".close-link-popup").addEventListener("click", () => {
+				popupContainer.style.opacity = "0";
+				setTimeout(() => popupContainer.remove(), 300);
+			});
+		
+			makeDraggable(popupContainer);
 		};
+
+		// let openTextPopup = (block) => {
+		// 	document.getElementById("popup-title").textContent = block.title;
+			
+		// 	// CLEAR PREVIOUS CONTENT THIS IS ACTUALLY IMPORTANT LOL
+		// 	document.getElementById("popup-embed").innerHTML = "";
+		// 	document.getElementById("popup-image").innerHTML = "";
+		// 	document.getElementById("popup-attachment").innerHTML = "";
+		// 	document.getElementById("popup-description").textContent = "";
+
+		// 	document.getElementById("popup-description").innerHTML = block.content_html;
+
+		// 	let popup = document.getElementById("link-popup");
+		// 	popup.classList.remove("image-popup", "link-popup");
+		// 	popup.classList.add("text-popup");
+
+		// 	document.getElementById("link-popup").classList.add("visible");
+		// };
 
 	// Attachments
 	if (block.class == 'Attachment') {
