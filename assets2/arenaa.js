@@ -355,7 +355,7 @@ let renderBlock = (block) => {
 			console.log("Attachment: ", block.attachment);
 			// let attachment = block.attachment.content_type 
 			let attachmentContent = '';
-			let popupFlexContainer = document.getElementsByClassName("popup-flex-container");
+			// let popupFlexContainer = document.getElementsByClassName("popup-flex-container");
 
 			if (block.attachment && block.attachment.content_type) {
 				let attachmentType = block.attachment.content_type;
@@ -364,7 +364,10 @@ let renderBlock = (block) => {
 				// audio
 				if (attachmentType.includes('audio')) {
 					attachmentContent = `
-						<p><em>Audio</em></p>
+						<p class="attachment-type"><em>Audio</em></p>
+						<picture id="popup-image">
+							<img src="${block.image.original.url}" alt="${block.title}">
+						</picture>
 						<audio controls>
 							<source src="${block.attachment.url}" type="${block.attachment.content_type}">
 						</audio>
@@ -374,9 +377,22 @@ let renderBlock = (block) => {
 				// pdf
 				else if (attachmentType.includes('pdf')) {
 					attachmentContent = `
-						<p><em>PDF</em></p>
+						<p class="attachment-type"><em>PDF</em></p>
+						<picture id="popup-image">
+							<img src="${block.image.original.url}" alt="${block.title}">
+						</picture>
 						<a href="${block.attachment.url}" target="_blank" class="attachment-link">View PDF</a>
 					`;
+				}
+
+				// video
+				else if (attachmentType.includes('video')){
+					attachmentContent =
+							`
+							<p class="attachment-type"><em>Video</em></p>
+								<video width="320" height="240" controls src="${ block.attachment.url }"></video>
+							`
+							;
 				}
 
 				// etc

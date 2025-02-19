@@ -361,6 +361,10 @@ footer {
     text-decoration: underline;
 }
 
+#attachment-type {
+	text-align: center;
+}
+
 @media (max-width: 600px) {
 	main {
 		display: flex;
