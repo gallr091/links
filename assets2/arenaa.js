@@ -211,9 +211,8 @@ let renderBlock = (block) => {
 			popupContainer.style.left = `${randomX}px`;
 			popupContainer.style.top = `${randomY}px`;
 
-			popupContainer.style.setProperty('--test-property', '100px');
 			//set property as variable -> allows to use css specifity
-			//left and top makes it hard on mobile
+			// and top makes it hard on mobile
 		
 			setTimeout(() => {
 				popupContainer.style.opacity = "1";
@@ -276,12 +275,15 @@ let renderBlock = (block) => {
 			let randomY = Math.max(10, Math.random() * (viewportHeight - popupHeight - 20));
 		
 			popupContainer.style.left = `${randomX}px`;
+			popupContainer.style.top = `${randomY}px`;
 
 			// --x-pos: 0.5;
-
+			let windowSize = window.matchMedia("(max-width: 400px)");
+			if (windowSize.matches) {
+				popupContainer.style.setProperty('max-width', '200px');
+			}
 			// calc(var(--x-pos) * 100vh)
 
-			popupContainer.style.top = `${randomY}px`;
 		
 			setTimeout(() => {
 				popupContainer.style.opacity = "1";

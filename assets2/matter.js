@@ -3,6 +3,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const engine = Matter.Engine.create();
   const world = engine.world;
 
+
+  let windowSize = window.matchMedia("(max-width: 400px)");
+  console.log(windowSize);
+
+    //   if (windowSize.matches) {
+    //     rightWall = Matter.Bodies.rectangle(700, 250, 10, 500, { isStatic: true });
+    //   }
+
   // const stack = Matter.Composites.stack(
     // xx, yy, columns, rows, columnGap, rowGap, cb
     // 0, 0, listEls.length, 1, 0, 0,
@@ -23,9 +31,24 @@ document.addEventListener("DOMContentLoaded", () => {
   listEls.forEach((el, i) => {
       const { width, height } = el.getBoundingClientRect();
 
+      let labelXMultiplier;
+      let labelYMultiplier;
+
+      if (windowSize.matches) {
+         labelXMultiplier = 50;
+         labelYMultiplier = 100;
+      } 
+      else {
+         labelXMultiplier = 100;
+         labelYMultiplier = 50;
+      }
+
+      // to do: fix wall in mobile
+
       const body = Matter.Bodies.rectangle(
-          100 + Math.random() * 600, // xpos
-          50 + Math.random() * 50, // ypos
+          100 + Math.random() * labelXMultiplier, // xpos
+          // original was 60
+          50 + Math.random() * labelYMultiplier, // ypos
           width,
           height,
           {
@@ -95,12 +118,26 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // bounds
-  const ground = Matter.Bodies.rectangle(400, 450, 800, 20, { isStatic: true });
-  const leftWall = Matter.Bodies.rectangle(0, 250, 20, 500, { isStatic: true });
-  const rightWall = Matter.Bodies.rectangle(700, 250, 20, 500, { isStatic: true });
+  // params: (x, y, width, height)
+  let ground;
+  let leftWall;
+  let rightWall;
+
+  if (windowSize.matches) {
+    ground = Matter.Bodies.rectangle(400, 600, 800, 20, { isStatic: true });
+    leftWall = Matter.Bodies.rectangle(0, 600, 20, 500, { isStatic: true });
+    rightWall = Matter.Bodies.rectangle(350, 600, 20, 500, { isStatic: true });
+    } 
+
+    else {
+        ground = Matter.Bodies.rectangle(400, 450, 800, 20, { isStatic: true });
+        leftWall = Matter.Bodies.rectangle(0, 250, 20, 500, { isStatic: true });
+        rightWall = Matter.Bodies.rectangle(700, 250, 20, 500, { isStatic: true });
+    }
 
   Matter.World.add(world, [ground, leftWall, rightWall]);
 
+  
   // mouse
   const mouse = Matter.Mouse.create(document.querySelector(".categories"));
   const mouseConstraint = Matter.MouseConstraint.create(engine, { mouse });
