@@ -606,14 +606,6 @@ let renderBlock = (block) => {
 	// });
 
 
-
-
-
-
-
-
-
-
 	}
 
 
@@ -656,7 +648,7 @@ fetch(`https://api.are.na/v2/channels/${channelSlug}?per=100`, { cache: 'no-stor
 
 
 
-	//random position: mobile %
+	// random position: mobile %
 	// use document.body.style.setProperty("--text", "world") for random position
 	// standardize aesthetic: 3 conflicting ones (ascii, pixel all black)
 	// dont have to use matter.js for mobile, maybe cheese it with css 

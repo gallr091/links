@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
          labelYMultiplier = 100;
       } 
       else {
-         labelXMultiplier = 100;
+         labelXMultiplier = 600;
          labelYMultiplier = 50;
       }
 
@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const body = Matter.Bodies.rectangle(
           100 + Math.random() * labelXMultiplier, // xpos
-          // original was 60
+          // original was 600
           50 + Math.random() * labelYMultiplier, // ypos
           width,
           height,
@@ -87,7 +87,7 @@ document.addEventListener("DOMContentLoaded", () => {
         } else if (el.textContent === "Text") {
             hideItems(image, attachment, link, media);
         } else if (el.textContent === "Show All") {
-          allItems.forEach(item => item.style.borderBottom = "2px solid black");
+          allItems.forEach(item => item.style.borderBottom = "2.5px dashed black");
       }
 
         if (el.textContent !== "Show All") {
@@ -124,11 +124,10 @@ document.addEventListener("DOMContentLoaded", () => {
   let rightWall;
 
   if (windowSize.matches) {
-    ground = Matter.Bodies.rectangle(400, 600, 800, 20, { isStatic: true });
-    leftWall = Matter.Bodies.rectangle(0, 600, 20, 500, { isStatic: true });
-    rightWall = Matter.Bodies.rectangle(350, 600, 20, 500, { isStatic: true });
+        ground = Matter.Bodies.rectangle(400, 600, 800, 20, { isStatic: true });
+        leftWall = Matter.Bodies.rectangle(0, 600, 20, 500, { isStatic: true });
+        rightWall = Matter.Bodies.rectangle(350, 600, 20, 500, { isStatic: true });
     } 
-
     else {
         ground = Matter.Bodies.rectangle(400, 450, 800, 20, { isStatic: true });
         leftWall = Matter.Bodies.rectangle(0, 250, 20, 500, { isStatic: true });

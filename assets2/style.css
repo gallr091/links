@@ -139,7 +139,6 @@ footer {
 
 
 /* CONTENT */
-
 #content{
 	overflow-y: auto;
 	width: 40vw;
@@ -153,8 +152,8 @@ footer {
   }
   
   .item {
-	border-bottom: 2px solid black; 
-	border-left: 2px solid black; 
+	border-bottom: 2.5px dashed black; 
+	border-left: 2.5px dashed black; 
 	height: auto; 
 	display: flex;
   }
@@ -414,6 +413,10 @@ iframe[src*="youtube"] {
 	overflow-y: visible;
 	}
 
+    .item {
+        border-left: none;
+    }
+
 	.channel-blocks {
 		border-left: none;
 	}
@@ -423,7 +426,7 @@ iframe[src*="youtube"] {
 	}
 
 	.channel-blocks{
-		border-top: 2px solid black; 
+		border-top: 2.5px dashed black; 
 	}
 
 	.popup-content {
