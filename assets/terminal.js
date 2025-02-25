@@ -94,7 +94,7 @@ window.addEventListener("load", function() {
         document.addEventListener("keydown", function(event) {
             if (event.key === "Enter") {
                 if (typedText.trim().toLowerCase() === "enter") {
-                    window.location.href = "index.html";
+                    window.location.href = "main.html";
                 } else {
                     typedText = "";
                     userInputSpan.textContent = "";
