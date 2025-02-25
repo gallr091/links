@@ -50,8 +50,8 @@ let renderBlock = (block) => {
 		// let formattedClass = blockClass.replace("block-","validClasses");
 		let formattedClass = blockClass.replace("block-", ""); 
 		return validClasses.includes(formattedClass)
-			? `assets2/block-${formattedClass}.png` 
-			: "assets2/default.png"; // fallback 
+			? `assets/block-${formattedClass}.png` 
+			: "assets/default.png"; // fallback 
 	};
 	
 	// Titles
