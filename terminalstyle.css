@@ -1,0 +1,70 @@
+body {
+	background: black;
+	color: #00ff00;
+	font-family: monospace;
+	padding: 20px;
+	margin: 0;
+}
+
+#terminal {
+display: none; 
+}
+
+#terminal {
+	font-size: 0.3vw; 
+	white-space: pre-wrap;
+	max-width: 100%;
+	overflow: hidden;
+	/* transform: scale(0.3) */
+}
+
+
+#enter {
+font-family: monospace;
+font-size: 1rem; 
+color: #00FF00;
+white-space: nowrap;
+overflow: hidden;
+}
+
+.blinking-cursor {
+display: inline-block;
+width: 10px;
+height: 20px;
+background-color: #00FF00;
+animation: blink 0.7s step-end infinite;
+}
+
+@keyframes blink {
+50% {
+opacity: 0;
+}
+}
+
+#terminal-input {
+display: block;
+width: 100%;
+max-width: 600px;
+margin-top: 20px;
+padding: 10px;
+font-family: 'Courier New', monospace;
+font-size: 16px;
+background-color: black;
+color: #00FF00;
+/* border: 1px solid #00FF00; */
+border-radius: 5px;
+outline: none;
+}
+
+@keyframes blink {
+50% {
+opacity: 0;
+}
+}
+
+
+@media (max-width: 600px) {
+	#terminal {
+		font-size: 3vw;
+	}
+}
