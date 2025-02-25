@@ -13,24 +13,41 @@ let channelSlug = 'digital-brutalism-buorqfz9bag' // The “slug” is just the 
 
 // First, let’s lay out some *functions*, starting with our basic metadata:
 let placeChannelInfo = (data) => {
-	// Target the main-info section where the about content should appear:
+	// Target some elements in your HTML:
+	// Then set their content/attributes to our data:
+
 	let mainInfoSection = document.querySelector('.main-info');
-	
-	// Use markdown-it to convert the markdown description to HTML
 	let descriptionHTML = window.markdownit().render(data.metadata.description);
   
-	// Create a new paragraph element for the description
 	let aboutParagraph = document.createElement('p');
 	aboutParagraph.id = 'about-description'; 
 	aboutParagraph.innerHTML = descriptionHTML;
   
-	// Add the new paragraph to the main-info section
 	mainInfoSection.appendChild(aboutParagraph);
-	
-	// Optional: Clear out existing content before adding new info, if needed
-	// mainInfoSection.innerHTML = '';
-	// mainInfoSection.appendChild(aboutParagraph);
-  };
+
+	let channelInfoSection = document.createElement('section');
+	channelInfoSection.id = 'channel-info-section';  
+
+	let channelCountParagraph = document.createElement('p');
+	channelCountParagraph.id = 'channel-count'; 
+	channelCountParagraph.innerHTML = `◌ channel count: ${data.length}`;
+	channelInfoSection.appendChild(channelCountParagraph);
+
+	let channelLinkParagraph = document.createElement('p');
+	channelLinkParagraph.id = 'channel-link';
+	let link = document.createElement('a');
+	link.href = `https://www.are.na/channel/${data.slug}`;
+	link.target = "_blank";  
+	link.innerHTML = `◌ are.na channel: ${data.title}↗`;
+	channelLinkParagraph.appendChild(link);
+
+	channelInfoSection.appendChild(channelLinkParagraph);
+
+	mainInfoSection.appendChild(channelInfoSection);
+
+	// renderUser(userData);
+	};
+
   
 
 
@@ -605,17 +622,25 @@ let renderBlock = (block) => {
 
 
 // It‘s always good to credit your work:
-let renderUser = (user, container) => { // You can have multiple arguments for a function!
-	let userAddress =
-		`
-		<address>
-			<img src="${ user.avatar_image.display }">
-			<h3>${ user.first_name }</h3>
-			<p><a href="https://are.na/${ user.slug }">Are.na profile ↗</a></p>
-		</address>
-		`
-	container.insertAdjacentHTML('beforeend', userAddress)
-}
+let renderUser = (collaborators, owner) => {
+    // Ensure user data is available
+    if (collaborators && collaborators[0].first_name && collaborators[0].slug && owner && owner.slug && owner.first_name) {
+        let userAddress = `
+            <address id="credit">
+                <p>◌ website by: <a href="https://are.na/${collaborators[0].slug}" target="_blank">${collaborators[0].first_name}↗</a></p>
+                <p>◌ original by: <a href="https://are.na/${owner.slug}" target="_blank">${owner.first_name}↗</a></p>
+            </address>
+        `;
+        
+        // Select the main-info section
+        let mainInfoSection = document.querySelector('.main-info');
+
+        // Append the user information to the main-info section
+        mainInfoSection.insertAdjacentHTML('beforeend', userAddress);
+    } else {
+        console.log('null');
+    }
+};
 
 
 
@@ -624,6 +649,7 @@ fetch(`https://api.are.na/v2/channels/${channelSlug}?per=100`, { cache: 'no-stor
 	.then((response) => response.json()) // Return it as JSON data
 	.then((data) => { // Do stuff with the data
 		console.log(data) // Always good to check your response!
+
 		placeChannelInfo(data) // Pass the data to the first function
 
 		// Loop through the `contents` array (list), backwards. Are.na returns them in reverse!
@@ -632,10 +658,11 @@ fetch(`https://api.are.na/v2/channels/${channelSlug}?per=100`, { cache: 'no-stor
 			renderBlock(block) // Pass the single block data to the render function
 		})
 
-		// Also display the owner and collaborators:
-		let channelUsers = document.querySelector('#channel-users') // Show them together
-		data.collaborators.forEach((collaborator) => renderUser(collaborator, channelUsers))
-		// renderUser(data.user, channelUsers)
+		let collaborators = data.collaborators || {};  // Ensure user data exists
+        let owner = data.owner || {};  // Assuming the owner is also in `data.user` (check API structure)
+
+        // Call renderUser with both user and owner data
+        renderUser(collaborators, owner);
 
 		console.log(data);
 	})
