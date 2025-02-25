@@ -65,6 +65,6 @@ opacity: 0;
 
 @media (max-width: 600px) {
 	#terminal {
-		font-size: 3vw;
+		font-size: 0.2rem;
 	}
 }
