@@ -168,6 +168,7 @@ document.addEventListener("DOMContentLoaded", () => {
   resetButton.style.left = "10px";
   document.body.appendChild(resetButton);
 
+  //to do: fix mobile wall sizes in reset button
   resetButton.addEventListener("click", () => {
       bodies.forEach((body, i) => {
           Matter.Body.setPosition(body, {
