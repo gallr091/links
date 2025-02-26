@@ -123,20 +123,22 @@ document.addEventListener("DOMContentLoaded", () => {
   let rightWall;
 
   let viewportWidth = window.innerWidth;
+  let viewportHeight = window.innerHeight;
     
   // menus are 10vw on each side
   let leftBoundary = viewportWidth * 0.1;
   let rightBoundary = viewportWidth * 0.9;
+  let bottomBoundary = viewportHeight / 2;
 
   // params: (x, y, width, height)
-  //mobile
+  // mobile
   if (windowSize.matches) {
-        ground = Matter.Bodies.rectangle(400, 400, 5000, 20, { isStatic: true });
+        ground = Matter.Bodies.rectangle(400, bottomBoundary, 5000, 20, { isStatic: true });
         leftWall = Matter.Bodies.rectangle(leftBoundary, 400, 20, 10000, { isStatic: true });
         rightWall = Matter.Bodies.rectangle(rightBoundary, 400, 20, 10000, { isStatic: true });
     } 
 
-    //desktop
+    // desktop
     else {
         ground = Matter.Bodies.rectangle(400, 450, 800, 20, { isStatic: true });
         leftWall = Matter.Bodies.rectangle(0, 250, 20, 500, { isStatic: true });
@@ -171,24 +173,32 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // reset
   const resetButton = document.createElement("button");
-  resetButton.textContent = "Reset Blocks";
-  resetButton.style.position = "absolute";
-  resetButton.style.top = "10px";
-  resetButton.style.left = "10px";
+  resetButton.textContent = "reset blocks ↺";
   document.body.appendChild(resetButton);
 
   //to do: fix mobile wall sizes in reset button
   resetButton.addEventListener("click", () => {
-      bodies.forEach((body, i) => {
-          Matter.Body.setPosition(body, {
-              x: 100 + Math.random() * 600,
-              y: 50 + Math.random() * 50,
-          });
-          Matter.Body.setVelocity(body, { x: 0, y: 0 });
-          Matter.Body.setAngle(body, 0);
-          Matter.Body.setAngularVelocity(body, 0);
-      });
-  });
+    let labelXMultiplier, labelYMultiplier;
+
+    if (windowSize.matches) {
+        labelXMultiplier = 150;
+        labelYMultiplier = 10;
+    } else {
+        labelXMultiplier = 600;
+        labelYMultiplier = 50;
+    }
+
+    bodies.forEach((body, i) => {
+        Matter.Body.setPosition(body, {
+            x: 100 + Math.random() * labelXMultiplier,
+            y: 50 + Math.random() * labelYMultiplier,
+        });
+        Matter.Body.setVelocity(body, { x: 0, y: 0 });
+        Matter.Body.setAngle(body, 0);
+        Matter.Body.setAngularVelocity(body, 0);
+        });
+    });
+
 
   // sync
   (function update() {

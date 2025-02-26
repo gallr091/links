@@ -57,7 +57,7 @@ main {
 
 #ascii-text{
   transform: scale(0.5);
-  margin-bottom: 5rem;
+  margin-bottom: 15rem;
   margin-left: 1.5rem;
   font-weight: 900;
 }
@@ -78,23 +78,30 @@ pre {
   }
 
   #mjs-wrapper ul {
-	font-size: 1rem;
 	list-style: none;
 	user-select: none;
 	position: relative;
   }
 
   #mjs-wrapper li {
-	background: var(--color-grey);
-	border: 1.5px black;
-	border-style: dashed ;
-	display: inline-block;
-	padding: 1em;
-	cursor: pointer;
+    font-size: 0.8rem;
+    background: var(--color-grey);
+    border: 1.5px black;
+    border-style: dashed ;
+    display: inline-block;
+    padding: 1em;
+    cursor: pointer;
   }
   
   #mjs-wrapper li:hover {
-	background: var(--color-white);
+	  background: var(--color-white);
+  }
+
+  button{
+    position: absolute;
+    right: 11.5vw; 
+    bottom: 10px;
+    font-size: 0.8rem;
   }
 
 /* LEFT MENU */
