@@ -30,6 +30,7 @@ body {
   align-items: center;
   min-height: 100vh; 
   flex-direction: column; 
+  cursor: crosshair;
 }
 
 
@@ -42,6 +43,22 @@ main {
     align-items: center; 
     justify-content: center; 
 }	
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  height: 100%;
+}
+
+#coordinates {
+  position: absolute;
+  display: flex;
+  font-size: 1rem;
+  display: flex;
+  top: -100;
+}
 
 #website-title {
   display: flex;
