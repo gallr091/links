@@ -4,28 +4,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const world = engine.world;
 
 
-  let windowSize = window.matchMedia("(max-width: 400px)");
+  let windowSize = window.matchMedia("(max-width: 500px)");
   console.log(windowSize);
-
-    //   if (windowSize.matches) {
-    //     rightWall = Matter.Bodies.rectangle(700, 250, 10, 500, { isStatic: true });
-    //   }
-
-  // const stack = Matter.Composites.stack(
-    // xx, yy, columns, rows, columnGap, rowGap, cb
-    // 0, 0, listEls.length, 1, 0, 0,
-    // (xx, yy, i) => {
-    //   const {x, y, width, height} = listEls[i].getBoundingClientRect();
-    //   return Matter.Bodies.rectangle(x, y, width, height, {
-        // isStatic: i === 0 || i + 1 === listEls.length
-  //     });
-  //   }
-  // );
-  
-  // Matter.Composites.chain(stack, 0.5, 0, -0.5, 0, {
-  //   stiffness: 0.5,
-  //   length: 20
-  // });
 
   const bodies = [];
   listEls.forEach((el, i) => {
@@ -97,7 +77,6 @@ document.addEventListener("DOMContentLoaded", () => {
             );
         }
 
-        // sorry this is weird lol
         if (el.textContent !== "show all") {
             removeLastItemBorder(image);
             removeLastItemBorder(attachment);
@@ -143,13 +122,13 @@ function removeLastItemBorder(items) {
     let leftBoundaryTwo = viewportWidth * 0.05;
     let rightBoundaryTwo = viewportWidth * 0.95;
 
-  // params: (x, y, width, height)
-  // mobile
-  if (windowSize.matches) {
-        ground = Matter.Bodies.rectangle(400, bottomBoundary, 5000, 20, { isStatic: true });
-        leftWall = Matter.Bodies.rectangle(leftBoundary, 400, 20, 10000, { isStatic: true });
-        rightWall = Matter.Bodies.rectangle(rightBoundary, 400, 20, 10000, { isStatic: true });
-    } 
+    // params: (x, y, width, height)
+    // mobile
+    if (windowSize.matches) {
+            ground = Matter.Bodies.rectangle(400, bottomBoundary, 5000, 20, { isStatic: true });
+            leftWall = Matter.Bodies.rectangle(leftBoundary, 400, 20, 10000, { isStatic: true });
+            rightWall = Matter.Bodies.rectangle(rightBoundary, 400, 20, 10000, { isStatic: true });
+        } 
 
     // desktop
     else {

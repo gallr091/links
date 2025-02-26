@@ -58,6 +58,7 @@ main {
   font-size: 1rem;
   display: flex;
   top: -100;
+  display: none;
 }
 
 #website-title {
@@ -564,10 +565,27 @@ h3{
 
 
 /* DESKTOP MEDIA QUERY */
-@media (min-width: 600px){
+
+@media (min-width: 500px){
 
   #ascii-text{
-    transform: scale(1.1);
+    transform: scale(0.7);
+  }
+
+}
+
+@media (min-width: 600px){
+
+  #coordinates {
+    position: absolute;
+    display: flex;
+    font-size: 1rem;
+    display: flex;
+    top: -100;
+  }
+
+  #ascii-text{
+    transform: scale(0.9);
   }
 
   .info-bar, .content-bar{
@@ -618,4 +636,12 @@ h3{
     h3{
       font-size: 1.1rem;
     }
+}
+
+@media (min-width: 800px){
+
+  #ascii-text{
+    transform: scale(1.1);
+  }
+
 }

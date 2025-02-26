@@ -163,7 +163,6 @@ let renderBlock = (block) => {
 				popup.style.zIndex = 1000;
 			});
 		}
-		//problem: empty space created below because of pop-up ypos when it's too low
 
 	// Images!
 	if (block.class === 'Image') {
