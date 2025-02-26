@@ -76,21 +76,21 @@ document.addEventListener("DOMContentLoaded", () => {
         allItems.forEach(item => item.style.display = "flex");
 
 
-        if (el.textContent === "Images") {
+        if (el.textContent === "images") {
             hideItems(attachment, link, media, text);
-        } else if (el.textContent === "Attachments") {
+        } else if (el.textContent === "attachments") {
             hideItems(image, link, media, text);
-        } else if (el.textContent === "Links") {
+        } else if (el.textContent === "links") {
             hideItems(image, attachment, media, text);
-        } else if (el.textContent === "Media") {
+        } else if (el.textContent === "media") {
             hideItems(image, attachment, link, text);
-        } else if (el.textContent === "Text") {
+        } else if (el.textContent === "text") {
             hideItems(image, attachment, link, media);
-        } else if (el.textContent === "Show All") {
+        } else if (el.textContent === "show all") {
           allItems.forEach(item => item.style.borderBottom = "2.5px dashed black");
       }
 
-        if (el.textContent !== "Show All") {
+        if (el.textContent !== "show all") {
           removeLastItemBorder(image);
           removeLastItemBorder(attachment);
           removeLastItemBorder(link);

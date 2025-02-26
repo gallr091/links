@@ -58,22 +58,13 @@ let renderBlock = (block) => {
 
 	let getBlockImage = (blockClass) => {
 		let validClasses = ["Image", "Media", "Link", "Text", "Attachment"];
-		// let formattedClass = blockClass.replace("block-","validClasses");
 		let formattedClass = blockClass.replace("block-", ""); 
 		return validClasses.includes(formattedClass)
 			? `assets/block-${formattedClass}.png` 
 			: "assets/default.png"; // fallback 
 	};
 	
-	// Titles
-	// let blockItem = 
-	// 	`<div class="item"> 
-	// 	    <img src="${getBlockImage(block.class)}" alt="${block.class}" class="block-image">
-	// 		<h3>${ block.title }</h3>
-	// 	</div>`
-	// channelBlocks.insertAdjacentHTML('beforeend', blockItem);
 
-	
 	// Links
 	if (block.class === 'Link') {
 		let linkItem = `
@@ -107,9 +98,9 @@ let renderBlock = (block) => {
 						<source media="(max-width: 640px)" srcset="${block.image.large.url}">
 						<img src="${block.image.original.url}" alt="${block.title}">
 					</picture>
-					<p id="popup-description">${block.description_html}</p>
-					<p><a href="${ block.source.url }">see the original ↗</a></p>
+					<p id="popup-description">${block.description}</p>
 				</div>
+				<p class="arena-link"><a href="${ block.source.url }">see the original ↗</a></p>
 			`;		
 		
 			document.body.appendChild(popupContainer); 
@@ -122,10 +113,16 @@ let renderBlock = (block) => {
 			
 			let randomX = Math.max(10, Math.random() * (viewportWidth - popupWidth - 20));
 			let randomY = Math.max(10, Math.random() * (viewportHeight - popupHeight - 20));
-			// let randomY = Math.max(10, Math.min(viewportHeight - popupHeight - 20, Math.random() * (viewportHeight - popupHeight - 20)));
 
 			popupContainer.style.left = `${randomX}px`;
 			popupContainer.style.top = `${randomY}px`;
+
+			// set property as variable -> allows to use css specifity
+			let windowSize = window.matchMedia("(max-width: 400px)");
+			if (windowSize.matches) {
+				popupContainer.style.setProperty('max-width', '300px');
+			}
+			
 		
 			setTimeout(() => {
 				popupContainer.style.opacity = "1";
@@ -147,7 +144,6 @@ let renderBlock = (block) => {
 			popup.addEventListener("mousedown", (e) => {
 				isDragging = true;
 				offsetX = e.clientX - popup.getBoundingClientRect().left;
-				// offsetX = e.clientX - popup.getBoundingClientRect().right;
 				offsetY = e.clientY - popup.getBoundingClientRect().top;
 				popup.style.zIndex = 1000; 
 			});
@@ -203,9 +199,10 @@ let renderBlock = (block) => {
 						<source media="(max-width: 640px)" srcset="${block.image.large.url}">
 						<img src="${block.image.original.url}" alt="${block.title}">
 					</picture>
-						<p id="popup-description">${block.description_html}</p>
-					<p><a href="http://are.na/block/${block.id}" target="_blank">see the original ↗</a></p>
+						<p id="popup-description">${block.description}</p>
 				</div>
+				<p class="arena-link"><a href="http://are.na/block/${block.id}" target="_blank">see the original ↗</a></p>
+
 			`;      
 		
 			document.body.appendChild(popupContainer);
@@ -222,8 +219,11 @@ let renderBlock = (block) => {
 			popupContainer.style.left = `${randomX}px`;
 			popupContainer.style.top = `${randomY}px`;
 
-			//set property as variable -> allows to use css specifity
-			// and top makes it hard on mobile
+			// i tried set property with xpos and ypos and i didn't like it lol it was giving me more problems than this
+			let windowSize = window.matchMedia("(max-width: 400px)");
+			if (windowSize.matches) {
+				popupContainer.style.setProperty('max-width', '300px');
+			}
 		
 			setTimeout(() => {
 				popupContainer.style.opacity = "1";
@@ -271,7 +271,7 @@ let renderBlock = (block) => {
 					${block.content_html}
 					<p>${block.description_html || ""}</p>
 				</div>
-				<p><a href="http://are.na/block/${block.id}" target="_blank">see the original ↗</a></p>
+				<p class="arena-link"><a href="http://are.na/block/${block.id}" target="_blank">see the original ↗</a></p>
 			`;      
 		
 			document.body.appendChild(popupContainer);
@@ -282,20 +282,17 @@ let renderBlock = (block) => {
 			let popupWidth = popupContainer.offsetWidth || 300;
 			let popupHeight = popupContainer.offsetHeight || 200;
 		
-			let randomX = Math.max(10, Math.random() * (viewportWidth - popupWidth - 20));
-			let randomY = Math.max(10, Math.random() * (viewportHeight - popupHeight - 20));
+			let randomX = Math.max(10, Math.random() * (viewportWidth - popupWidth - 10));
+			let randomY = Math.max(10, Math.random() * (viewportHeight - popupHeight - 10));
 		
 			popupContainer.style.left = `${randomX}px`;
 			popupContainer.style.top = `${randomY}px`;
 
-			// --x-pos: 0.5;
 			let windowSize = window.matchMedia("(max-width: 400px)");
 			if (windowSize.matches) {
-				popupContainer.style.setProperty('max-width', '200px');
+				popupContainer.style.setProperty('max-width', '300px');
 			}
-			// calc(var(--x-pos) * 100vh)
 
-		
 			setTimeout(() => {
 				popupContainer.style.opacity = "1";
 			}, 50);
@@ -308,24 +305,6 @@ let renderBlock = (block) => {
 		
 			makeDraggable(popupContainer);
 		};
-
-		// let openTextPopup = (block) => {
-		// 	document.getElementById("popup-title").textContent = block.title;
-			
-		// 	// CLEAR PREVIOUS CONTENT THIS IS ACTUALLY IMPORTANT LOL
-		// 	document.getElementById("popup-embed").innerHTML = "";
-		// 	document.getElementById("popup-image").innerHTML = "";
-		// 	document.getElementById("popup-attachment").innerHTML = "";
-		// 	document.getElementById("popup-description").textContent = "";
-
-		// 	document.getElementById("popup-description").innerHTML = block.content_html;
-
-		// 	let popup = document.getElementById("link-popup");
-		// 	popup.classList.remove("image-popup", "link-popup");
-		// 	popup.classList.add("text-popup");
-
-		// 	document.getElementById("link-popup").classList.add("visible");
-		// };
 
 	// Attachments
 	if (block.class == 'Attachment') {
@@ -357,18 +336,15 @@ let renderBlock = (block) => {
 				<h3>${block.title}</h3>
 				<div class="popup-flex-container">
 					<div id="popup-attachment"></div> 
-					<p id="popup-description">${block.content_html || ""}</p> 
-					<p>${block.description_html || ""}</p>
-					<p><a href="http://are.na/block/${block.id}" target="_blank">see the original ↗</a></p>
 				</div>
+				<p class="arena-link"><a href="http://are.na/block/${block.id}" target="_blank">see the original ↗</a></p>
+
 			`;
 		
 			document.body.appendChild(popupContainer);
 		
 			console.log("Attachment: ", block.attachment);
-			// let attachment = block.attachment.content_type 
 			let attachmentContent = '';
-			// let popupFlexContainer = document.getElementsByClassName("popup-flex-container");
 
 			if (block.attachment && block.attachment.content_type) {
 				let attachmentType = block.attachment.content_type;
@@ -377,7 +353,7 @@ let renderBlock = (block) => {
 				// audio
 				if (attachmentType.includes('audio')) {
 					attachmentContent = `
-						<p class="attachment-type"><em>Audio</em></p>
+						<p class="attachment-type">[audio]</p>
 						<picture id="popup-image">
 							<img src="${block.image.original.url}" alt="${block.title}">
 						</picture>
@@ -390,11 +366,11 @@ let renderBlock = (block) => {
 				// pdf
 				else if (attachmentType.includes('pdf')) {
 					attachmentContent = `
-						<p class="attachment-type"><em>PDF</em></p>
+						<p class="attachment-type">[pdf]</p>
 						<picture id="popup-image">
 							<img src="${block.image.original.url}" alt="${block.title}">
 						</picture>
-						<a href="${block.attachment.url}" target="_blank" class="attachment-link">View PDF</a>
+						<a href="${block.attachment.url}" target="_blank"><p class="attachment-link">(view full pdf)</a></p>
 					`;
 				}
 
@@ -402,7 +378,7 @@ let renderBlock = (block) => {
 				else if (attachmentType.includes('video')){
 					attachmentContent =
 							`
-							<p class="attachment-type"><em>Video</em></p>
+							<p class="attachment-type">[video]</p>
 								<video width="320" height="240" controls src="${ block.attachment.url }"></video>
 							`
 							;
@@ -416,11 +392,10 @@ let renderBlock = (block) => {
 					`;
 				}
 
-				// this is not working but i need it to
-				// jk it works now
-				console.log(popupContainer)
+			
+				console.log(popupContainer);
 				popupContainer.querySelector("#popup-attachment").innerHTML = attachmentContent;	
-				// popupFlexContainer.insertAdjacentHTML('beforeend', attachmentContent);
+				
 			}
 			
 				// random pos
@@ -434,6 +409,12 @@ let renderBlock = (block) => {
 			
 				popupContainer.style.left = `${randomX}px`;
 				popupContainer.style.top = `${randomY}px`;
+
+				let windowSize = window.matchMedia("(max-width: 400px)");
+				if (windowSize.matches) {
+					popupContainer.style.setProperty('max-width', '300px');
+					popupContainer.style.setProperty('max-height', '90%');
+				}
 			
 				setTimeout(() => {
 					popupContainer.style.opacity = "1";
@@ -448,59 +429,6 @@ let renderBlock = (block) => {
 				makeDraggable(popupContainer);
 			};
 
-		// let openAttachmentPopup = (block) => {
-		// 	document.getElementById("popup-title").textContent = block.title;
-
-		// 	// CLEAR PREVIOUS CONTENT THIS IS ACTUALLY IMPORTANT LOL
-		// 	document.getElementById("popup-embed").innerHTML = "";
-		// 	document.getElementById("popup-image").innerHTML = "";
-		// 	document.getElementById("popup-attachment").innerHTML = "";
-		// 	document.getElementById("popup-description").textContent = "";
-
-		// 	// below doesn't work - description is null under attachment blocks???
-		// 	// document.getElementById("popup-description").innerHTML = block.attachment.description || block.description_html || "";
-		
-		// 	let attachmentContent = '';
-		// 	let originalLink = block.attachment.url; 
-		
-		// 	let attachment = block.attachment.content_type;
-		
-		// 	if (attachment.includes('audio')) {
-		// 		attachmentContent = `
-		// 			<p><em>Audio</em></p>
-		// 			<audio controls>
-		// 				<source src="${block.attachment.url}" type="${block.attachment.content_type}">
-		// 			</audio>
-		// 		`;
-		// 	}
-		
-		// 	else if (attachment.includes('pdf')) {
-		// 		attachmentContent = `
-		// 			<p><em>PDF</em></p>
-		// 			<a href="${block.attachment.url}" target="_blank" class="attachment-link">View PDF</a>
-		// 		`;
-		// 	}
-		
-		// 	else {
-		// 		attachmentContent = `
-		// 			<p><em>Attachment</em></p>
-		// 			<a href="${block.attachment.url}" target="_blank" class="attachment-link">Download or view</a>
-		// 		`;
-		// 	}
-		
-		// 	document.getElementById("popup-attachment").innerHTML = attachmentContent;
-		
-		// 	let originalLinkElement = document.getElementById("popup-link");
-		// 	originalLinkElement.setAttribute('href', originalLink);
-		// 	originalLinkElement.textContent = 'see the original ↗';
-		
-		// 	document.getElementById("link-popup").classList.add("visible");
-		// 	};
-		
-		// 	document.getElementById("close-link-popup").addEventListener("click", () => {
-		// 		document.getElementById("link-popup").classList.remove("visible");
-		// 	});
-		
 	// linked media
 	if (block.class === 'Media') {
 	
@@ -535,9 +463,9 @@ let renderBlock = (block) => {
 				<div class="popup-flex-container">
 					<div id="popup-embed"></div> 
 					<p id="popup-description">${block.content_html || ""}</p> 
-					<p>${block.description_html || ""}</p>
-					<p><a href="http://are.na/block/${block.id}" target="_blank">see the original ↗</a></p>
+					<p>${block.description || ""}</p>
 				</div>
+				<p class="arena-link"><a href="http://are.na/block/${block.id}" target="_blank">see the original ↗</a></p>
 				`;      
 		
 			document.body.appendChild(popupContainer);
@@ -545,14 +473,11 @@ let renderBlock = (block) => {
 			let mediaContent = '';
 
 			 if (embed.includes('video')) {
-				
+			
 						mediaContent = `
-							<p><em>Linked Video</em></p>
 							${block.embed.html}
 						`;
 					}
-				
-			
 				popupContainer.querySelector("#popup-embed").innerHTML = mediaContent;	
 			
 			// random pos
@@ -566,6 +491,12 @@ let renderBlock = (block) => {
 			
 				popupContainer.style.left = `${randomX}px`;
 				popupContainer.style.top = `${randomY}px`;
+
+				let windowSize = window.matchMedia("(max-width: 400px)");
+				if (windowSize.matches) {
+					popupContainer.style.setProperty('max-width', '300px');
+					popupContainer.style.setProperty('max-height', '90%');
+				}
 			
 				setTimeout(() => {
 					popupContainer.style.opacity = "1";
@@ -579,43 +510,6 @@ let renderBlock = (block) => {
 		
 			makeDraggable(popupContainer);
 		};
-
-	// 	if (block.class !== "Media") return;
-	
-	// 	document.getElementById("popup-title").textContent = block.title;
-
-	// 	// CLEAR PREVIOUS CONTENT THIS IS ACTUALLY IMPORTANT LOL
-	// 	document.getElementById("popup-embed").innerHTML = "";
-	// 	document.getElementById("popup-image").innerHTML = "";
-	// 	document.getElementById("popup-attachment").innerHTML = "";
-	// 	document.getElementById("popup-description").textContent = "";
-	
-	// 	let mediaContent = "";
-	// 	let originalLink = block.media?.url || "#"; 
-	
-	// 	// if (embed.includes('video')) {
-	// 	if (block.embed && block.embed.type && block.embed.html) {
-	// 		if (block.embed.type.includes("video")) {
-	// 			mediaContent = `
-	// 				<p><em>Linked Video</em></p>
-	// 				${block.embed.html}
-	// 			`;
-	// 		}
-	// 	}
-	
-	// 	document.getElementById("popup-embed").innerHTML = mediaContent;
-	
-	// 	let originalLinkElement = document.getElementById("popup-link");
-	// 	originalLinkElement.setAttribute("href", originalLink);
-	// 	originalLinkElement.textContent = "see the original ↗";
-	
-	// 	document.getElementById("link-popup").classList.add("visible");
-	// };
-	
-	// document.getElementById("close-link-popup").addEventListener("click", () => {
-	// 	document.getElementById("link-popup").classList.remove("visible");
-	// });
-
 
 	}
 
@@ -667,11 +561,5 @@ fetch(`https://api.are.na/v2/channels/${channelSlug}?per=100`, { cache: 'no-stor
 		console.log(data);
 	})
 
-
-
-	// random position: mobile %
-	// use document.body.style.setProperty("--text", "world") for random position
-	// standardize aesthetic: 3 conflicting ones (ascii, pixel all black)
-	// dont have to use matter.js for mobile, maybe cheese it with css 
 
 	
