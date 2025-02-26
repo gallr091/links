@@ -4,7 +4,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="assets/reset.css">
 		<link rel="stylesheet" href="assets/style2.css">
-		<!-- <script defer src="assets/matter.js"></script> -->
+		<script defer src="assets/matter.js"></script>
 		<script defer src="assets/arena2.js"></script>
 		<script defer src="assets/menu.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.20.0/matter.min.js"></script>
@@ -12,7 +12,7 @@
 	<body>
 		<main>
 	
-			<section id="website-info">
+			<section id="website-title">
 				<h1><pre id="ascii-text">
    ____ ___ ____ ___ _____  _    _                      
   |  _ |_ _/ ___|_ _|_   _|/ \  | |                     
@@ -26,19 +26,27 @@
   |____/|_| \_\\___/  |_/_/   \_|_____|___|____/|_|  |_|
 				</pre></h1>
 
+				<section class="categories">
+					<ul id="mjs-wrapper">
+							<li>Show All</li>
+							<li>Attachments</li>
+							<li>Images</li>
+							<li>Links</li>
+							<li>Media</li>
+							<li>Text</li>
+					</ul>
+				</section>				
+
+		
 				
+			</section>
+
+			<section id="about-website">
 				<div class="wrapper-info">
 					<div class="info-bar">
 						<div class="content">
 							<nav>
-								<ul id="nav-links">
-									<li id="about-link"><a href="#">about↗</a></li>
-									<li id="arena-link">
-										<a href="https://www.are.na/nattakitta-chuasiriphattana/digital-brutalism-buorqfz9bag" target="_blank">
-											are.na channel↗
-										</a>
-									</li>
-								</ul>
+								<a href="#">◌ about</a>
 							</nav>
 							<footer>
 								<address>©2025 rice gallardo & opal chuasiriphattana</address>
@@ -49,52 +57,16 @@
 						<h2>about this website</h2>
 					</section>
 				</div>
-				
-
-
-				<!-- <section class="categories">
-					<ul id="mjs-wrapper">
-							<li>Show All</li>
-							<li>Attachments</li>
-							<li>Images</li>
-							<li>Links</li>
-							<li>Media</li>
-							<li>Text</li>
-					</ul>
-				</section>				 -->
-
-				<div id="popup" class="hidden">
-					<div class="popup-about-content">
-						<h2>about this website</h2>
-						<span id="close-popup">&times;</span>
-						<div id="channel-description"></div>
-					</div>
-				</div>				
-
-				
 			</section>
 
 
 			<section id="content">
-	
-				<div class="channel-blocks"></div>
 
-
-				<!-- <div id="hide-this">
-				<div id="popup-content" class="popup-hidden">
-					<div class="popup-content">
-						<span id="close-link-popup">&times;</span>
-						<h3 id="popup-title"></h3>
-						<div class="popup-flex-container">
-							<picture id="popup-image"></picture>
-							<p id="popup-description"></p>
-							<div id="popup-attachment"></div>
-							<div id="popup-embed"></div>
-						</div>
-					<p><a id="popup-link" href="#" target="_blank">see the original ↗</a></p>
+				<div class="wrapper-content">
+					<div class="content-bar">
+						<h3 id="content-bar-title">◌ channel contents</h3>
 					</div>
-				</div>
-			</div> -->
+				<div class="channel-blocks"></div>
 
 			</section>
 

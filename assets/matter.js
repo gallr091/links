@@ -35,8 +35,8 @@ document.addEventListener("DOMContentLoaded", () => {
       let labelYMultiplier;
 
       if (windowSize.matches) {
-         labelXMultiplier = 50;
-         labelYMultiplier = 100;
+         labelXMultiplier = 150;
+         labelYMultiplier = 10;
       } 
       else {
          labelXMultiplier = 600;
@@ -118,16 +118,25 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // bounds
-  // params: (x, y, width, height)
   let ground;
   let leftWall;
   let rightWall;
 
+  let viewportWidth = window.innerWidth;
+    
+  // menus are 10vw on each side
+  let leftBoundary = viewportWidth * 0.1;
+  let rightBoundary = viewportWidth * 0.9;
+
+  // params: (x, y, width, height)
+  //mobile
   if (windowSize.matches) {
-        ground = Matter.Bodies.rectangle(400, 600, 800, 20, { isStatic: true });
-        leftWall = Matter.Bodies.rectangle(0, 600, 20, 500, { isStatic: true });
-        rightWall = Matter.Bodies.rectangle(350, 600, 20, 500, { isStatic: true });
+        ground = Matter.Bodies.rectangle(400, 400, 5000, 20, { isStatic: true });
+        leftWall = Matter.Bodies.rectangle(leftBoundary, 400, 20, 10000, { isStatic: true });
+        rightWall = Matter.Bodies.rectangle(rightBoundary, 400, 20, 10000, { isStatic: true });
     } 
+
+    //desktop
     else {
         ground = Matter.Bodies.rectangle(400, 450, 800, 20, { isStatic: true });
         leftWall = Matter.Bodies.rectangle(0, 250, 20, 500, { isStatic: true });
