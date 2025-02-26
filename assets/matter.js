@@ -209,6 +209,40 @@ function removeLastItemBorder(items) {
         Matter.Body.setAngle(body, 0);
         Matter.Body.setAngularVelocity(body, 0);
         });
+
+    // bounds
+        let ground;
+        let leftWall;
+        let rightWall;
+
+        let viewportWidth = window.innerWidth;
+        let viewportHeight = window.innerHeight;
+            
+        // menus are 10vw on each side (mobile)
+        let leftBoundary = viewportWidth * 0.1;
+        let rightBoundary = viewportWidth * 0.9;
+        let bottomBoundary = viewportHeight / 2;
+
+            // menus are 5vw on each side (desktop)
+            let leftBoundaryTwo = viewportWidth * 0.05;
+            let rightBoundaryTwo = viewportWidth * 0.95;
+
+        // params: (x, y, width, height)
+        // mobile
+        if (windowSize.matches) {
+                ground = Matter.Bodies.rectangle(400, bottomBoundary, 5000, 20, { isStatic: true });
+                leftWall = Matter.Bodies.rectangle(leftBoundary, 400, 20, 10000, { isStatic: true });
+                rightWall = Matter.Bodies.rectangle(rightBoundary, 400, 20, 10000, { isStatic: true });
+            } 
+
+            // desktop
+            else {
+                ground = Matter.Bodies.rectangle(400, 450, 5000, 20, { isStatic: true });
+                leftWall = Matter.Bodies.rectangle(leftBoundaryTwo, 250, 20, 500, { isStatic: true });
+                rightWall = Matter.Bodies.rectangle(rightBoundaryTwo, 250, 20, 500, { isStatic: true });
+            }
+
+        Matter.World.add(world, [ground, leftWall, rightWall]);
     });
 
 

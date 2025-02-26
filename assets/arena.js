@@ -269,7 +269,7 @@ let renderBlock = (block) => {
 				<h3>${block.title}</h3>
 				<div class="popup-flex-container">
 					${block.content_html}
-					<p>${block.description_html || ""}</p>
+					<p id="popup-description">${block.description}</p>
 				</div>
 				<p class="arena-link"><a href="http://are.na/block/${block.id}" target="_blank">see the original ↗</a></p>
 			`;      
