@@ -353,10 +353,10 @@ let renderBlock = (block) => {
 				// audio
 				if (attachmentType.includes('audio')) {
 					attachmentContent = `
-						<p class="attachment-type">[audio]</p>
 						<picture id="popup-image">
 							<img src="${block.image.original.url}" alt="${block.title}">
 						</picture>
+						<a href="${block.attachment.url}" target="_blank"><p class="attachment-link">(listen)</a></p>
 						<audio controls>
 							<source src="${block.attachment.url}" type="${block.attachment.content_type}">
 						</audio>
@@ -366,7 +366,6 @@ let renderBlock = (block) => {
 				// pdf
 				else if (attachmentType.includes('pdf')) {
 					attachmentContent = `
-						<p class="attachment-type">[pdf]</p>
 						<picture id="popup-image">
 							<img src="${block.image.original.url}" alt="${block.title}">
 						</picture>
@@ -378,8 +377,9 @@ let renderBlock = (block) => {
 				else if (attachmentType.includes('video')){
 					attachmentContent =
 							`
-							<p class="attachment-type">[video]</p>
 								<video width="320" height="240" controls src="${ block.attachment.url }"></video>
+								<a href="${block.attachment.url}" target="_blank"><p class="attachment-link">(watch)</a></p>
+
 							`
 							;
 				}
@@ -387,7 +387,6 @@ let renderBlock = (block) => {
 				// etc
 				else {
 					attachmentContent = `
-						<p><em>Attachment</em></p>
 						<a href="${block.attachment.url}" target="_blank" class="attachment-link">Download or view</a>
 					`;
 				}
@@ -462,8 +461,7 @@ let renderBlock = (block) => {
 				<h3>${block.title}</h3>
 				<div class="popup-flex-container">
 					<div id="popup-embed"></div> 
-					<p id="popup-description">${block.content_html || ""}</p> 
-					<p>${block.description || ""}</p>
+					
 				</div>
 				<p class="arena-link"><a href="http://are.na/block/${block.id}" target="_blank">see the original ↗</a></p>
 				`;      
@@ -558,7 +556,6 @@ fetch(`https://api.are.na/v2/channels/${channelSlug}?per=100`, { cache: 'no-stor
         // Call renderUser with both user and owner data
         renderUser(collaborators, owner);
 
-		console.log(data);
 	})
 
 

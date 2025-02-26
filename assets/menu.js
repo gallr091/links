@@ -9,12 +9,13 @@ document.addEventListener("DOMContentLoaded", function () {
         content.classList.toggle("open");
     });
 
-	const contentBar = document.querySelector(".content-bar");
-	const wrapperContent = document.querySelector(".wrapper-content");
-	const channelBlocks = document.querySelector(".channel-blocks");
-  
-	contentBar.addEventListener("click", function () {
-	  wrapperContent.classList.toggle("open"); 
-	  channelBlocks.classList.toggle("expanded");
+    const contentBar = document.querySelector(".content-bar");
+    const wrapperContent = document.querySelector(".wrapper-content");
+    const channelBlocks = document.querySelector(".channel-blocks");
+
+    contentBar.addEventListener("click", function () {
+        wrapperContent.classList.toggle("open");
+        channelBlocks.classList.toggle("expanded");
     });
+
 });

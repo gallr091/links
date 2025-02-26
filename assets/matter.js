@@ -39,11 +39,9 @@ document.addEventListener("DOMContentLoaded", () => {
          labelYMultiplier = 10;
       } 
       else {
-         labelXMultiplier = 600;
+         labelXMultiplier = 1000;
          labelYMultiplier = 50;
       }
-
-      // to do: fix wall in mobile
 
       const body = Matter.Bodies.rectangle(
           100 + Math.random() * labelXMultiplier, // xpos
@@ -62,19 +60,26 @@ document.addEventListener("DOMContentLoaded", () => {
       bodies.push(body);
       Matter.World.add(world, body);
 
+      
       // filter blocks
-      el.addEventListener("click", () => {
-        console.log(el.textContent); 
-    
+        const categoryItems = document.querySelectorAll("#mjs-wrapper li");
+
+        categoryItems.forEach((el) => {
+            el.addEventListener("click", () => {
+                console.log(el.textContent);
+
+        categoryItems.forEach((item) => item.classList.remove("active"));
+
+        el.classList.add("active");
+
         let image = document.getElementsByClassName("image-item");
         let attachment = document.getElementsByClassName("attachment-item");
         let link = document.getElementsByClassName("link-item");
         let media = document.getElementsByClassName("media-item");
         let text = document.getElementsByClassName("text-item");
-    
-        let allItems = [...image, ...attachment, ...link, ...media, ...text];
-        allItems.forEach(item => item.style.display = "flex");
 
+        let allItems = [...image, ...attachment, ...link, ...media, ...text];
+        allItems.forEach((item) => (item.style.display = "flex"));
 
         if (el.textContent === "images") {
             hideItems(attachment, link, media, text);
@@ -87,33 +92,37 @@ document.addEventListener("DOMContentLoaded", () => {
         } else if (el.textContent === "text") {
             hideItems(image, attachment, link, media);
         } else if (el.textContent === "show all") {
-          allItems.forEach(item => item.style.borderBottom = "2.5px dashed black");
-      }
+            allItems.forEach(
+                (item) => (item.style.borderBottom = "2.5px dashed black")
+            );
+        }
 
+        // sorry this is weird lol
         if (el.textContent !== "show all") {
-          removeLastItemBorder(image);
-          removeLastItemBorder(attachment);
-          removeLastItemBorder(link);
-          removeLastItemBorder(media);
-          removeLastItemBorder(text);
-      }
+            removeLastItemBorder(image);
+            removeLastItemBorder(attachment);
+            removeLastItemBorder(link);
+            removeLastItemBorder(media);
+            removeLastItemBorder(text);
+        }
     });
+});
 
-
-    function hideItems(...categories) {
-        categories.forEach(category => {
-            for (let i = 0; i < category.length; i++) {
-                category[i].style.display = "none";
-            }
-        });
+function hideItems(...categories) {
+    categories.forEach((category) => {
+        for (let i = 0; i < category.length; i++) {
+            category[i].style.display = "none";
+        }
+    });
 }
 
-    // this is weird sorry lol
-    function removeLastItemBorder(items) {
-      if (items.length > 0) {
-          items[items.length - 1].style.borderBottom = "none";
-      }
+// sorry this is weird lol
+function removeLastItemBorder(items) {
+    if (items.length > 0) {
+        items[items.length - 1].style.borderBottom = "none";
     }
+}
+
     
   });
 
@@ -125,10 +134,14 @@ document.addEventListener("DOMContentLoaded", () => {
   let viewportWidth = window.innerWidth;
   let viewportHeight = window.innerHeight;
     
-  // menus are 10vw on each side
+  // menus are 10vw on each side (mobile)
   let leftBoundary = viewportWidth * 0.1;
   let rightBoundary = viewportWidth * 0.9;
   let bottomBoundary = viewportHeight / 2;
+
+    // menus are 5vw on each side (desktop)
+    let leftBoundaryTwo = viewportWidth * 0.05;
+    let rightBoundaryTwo = viewportWidth * 0.95;
 
   // params: (x, y, width, height)
   // mobile
@@ -140,9 +153,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // desktop
     else {
-        ground = Matter.Bodies.rectangle(400, 450, 800, 20, { isStatic: true });
-        leftWall = Matter.Bodies.rectangle(0, 250, 20, 500, { isStatic: true });
-        rightWall = Matter.Bodies.rectangle(700, 250, 20, 500, { isStatic: true });
+        ground = Matter.Bodies.rectangle(400, 450, 5000, 20, { isStatic: true });
+        leftWall = Matter.Bodies.rectangle(leftBoundaryTwo, 250, 20, 500, { isStatic: true });
+        rightWall = Matter.Bodies.rectangle(rightBoundaryTwo, 250, 20, 500, { isStatic: true });
     }
 
   Matter.World.add(world, [ground, leftWall, rightWall]);
@@ -176,7 +189,6 @@ document.addEventListener("DOMContentLoaded", () => {
   resetButton.textContent = "reset blocks ↺";
   document.body.appendChild(resetButton);
 
-  //to do: fix mobile wall sizes in reset button
   resetButton.addEventListener("click", () => {
     let labelXMultiplier, labelYMultiplier;
 
@@ -184,7 +196,7 @@ document.addEventListener("DOMContentLoaded", () => {
         labelXMultiplier = 150;
         labelYMultiplier = 10;
     } else {
-        labelXMultiplier = 600;
+        labelXMultiplier = 1000;
         labelYMultiplier = 50;
     }
 
